@@ -1,0 +1,69 @@
+#### Idea ####
+
+如果可以real time 紀錄比賽 上場時間 更換球員等等都可以被記錄下來
+那就可以知道 誰跟誰搭配比較好 
+
+替自己計分時 對手不需要每個球員紀錄誰得分 只需要既有沒有得分 得幾分就好
+
+
+
+
+
+
+
+
+
+
+
+'''
+## 基礎數據
+
+上場時間（minutes，簡稱MIN)
+得分（points，簡稱PTS）
+投籃命中數（field goal made，簡稱FGM，指球員在比賽中距離籃命中的次數，包括兩分球和三分球，但是不包括罰球。）
+投籃出手數（field goal attempts，簡稱FGA，包括兩分球和三分球，但是不包括罰球。）
+投籃命中率（field goal percentage，簡稱FG%，包含兩分球和三分球的整體命中率，但是不包括罰球。）
+三分命中數（3-pointer made，簡稱3PM）
+三分出手數（3-pointer attempts，簡稱3PA）
+三分命中率（3-pointer percentage，簡稱3P%）
+罰球命中數（free-throw made，簡稱FTM）
+罰球出手數（free-throw attempts，簡稱FTA）
+罰球命中率（free-throw percentage，簡稱FT%）
+籃板球（rebounds，簡稱REB）
+進攻籃板球（offensive rebound，簡稱OREB）
+防守籃板球（defensive rebound，簡稱DREB）
+助攻（assists，簡稱AST）、抄截（steals，簡稱STL）
+阻攻（blocks，簡稱BLK）、失誤（turnovers，簡稱TOV）
+
+
+## 進階數據
+1.
+EFF(Efficiency): EFF = (PTS + TREB + AST + STL + BLK) - (FGA - FGM) - (FTA - FTM) - TO   (是個常見的累積數據; 參考價值不高，未經過加權計算)
+
+GmSc (Game Score): GmSc = (PTS + 0.7×OREB + 0.3×DREB + 0.7×AST + STL + 0.7×BLK) + 0.4×FGM - 0.7×FGA - 0.4×(FTA-FTM) - TOV - 0.4×PF 
+# 相較EFF，多了對各項數據的加權，"看似"能改善EFF的第一個問題：各項數據非等價，不過這些權數是否合理就見仁見智了。
+
+
+eFG% (effective Field Goal Percentage)  # 能夠忠實呈現球員"投籃"的價值
+    eFG% = (FGM + 0.5*(3PM))/FGA
+
+
+TS (True Shooting percentage，真實命中率)
+得分/ (2* (FGA + 0.44 * FTA))
+
+
+2.
+https://www.sportsv.net/articles/45527
+藍版率
+USG%
+AST%
+TOV%
+
+
+3.
+https://www.sportsv.net/articles/45633?page=2
+Ortg,Drtg
+
+4. Win Share、RPM、BPM、VORP
+https://www.sportsv.net/articles/45943
+'''
