@@ -1,0 +1,18 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+
+	{% for game in games %}
+	    <div class="game">
+	      <div class="game-name">
+	      	<h3><a class="game-title" href="{% url 'game-detail' game.id %}">{{game.nameOfGame}}</a></h3>
+	      </div>
+	      <!-- game content -->
+	      <div class="game-background">
+	        <p>{{game.season}}   {{game.dateOfGame}}</p>
+	        <p>{{game.opponent}}</p>
+	        <p>{{game.area}}</p>
+	      </div>
+	    </div>
+	{% endfor %}
+{% endblock content %}

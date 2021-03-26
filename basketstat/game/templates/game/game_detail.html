@@ -1,0 +1,87 @@
+{% extends "home/base.html" %}
+
+
+{% block content %}
+	<!-- game information -->
+
+	<!-- game score table (temporary) need to update styling-->
+	<div class="game-detail">
+		<table class="table table-dark game-quarter-score">
+		  <thead>
+		    <tr>
+		      <th scope="col">Teams</th>
+		      <th scope="col">Q1</th>
+		      <th scope="col">Q2</th>
+		      <th scope="col">Q3</th>
+		      <th scope="col">Q4</th>
+		      <th scope="col">Total</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">我方</th>
+		      <td>0</td>
+		      <td>0</td>
+		      <td>0</td>
+		      <td>0</td>
+		      <td>0</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">{{game.opponent}}</th>
+		      <td>0</td>
+		      <td>0</td>
+		      <td>0</td>
+		      <td>0</td>
+		      <td>0</td>
+		    </tr>
+		  </tbody>
+		</table>
+	    
+	    <div class="game-info">
+			<h5>Game infomation</h5>    
+			<p>Season: {{game.season}}</p>
+			<p>Date: {{game.dateOfGame}}</p>
+			<p>Area: {{game.area}}</p>
+		</div>
+
+		<!-- game video -->
+		<!-- <p>{{game.gameUrl}}</p> -->
+	    <div class="game-video">
+	      <iframe width="560" height="315" src="https://www.youtube.com/embed/IEyRIRSvmVg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	    </div>
+
+	{% if game.creator == user %}
+		<div>
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
+			<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
+		</div>
+	{% endif %}
+
+	</div>
+
+
+
+	<!-- comments -->
+	{% for comment in comments %}	
+	  <div class="comment">
+	    <h6>{{comment.author}} | {{comment.date}} </h6>  
+	    <p>{{comment.comment}}</p>  
+	  </div>
+	{% endfor %}
+
+	{% if game.creator == user %}
+	    <!-- leave comment -->
+	    <div class="leave-comment">
+		    <form method='post' action="#">
+		    	{% csrf_token %}
+				<!-- author -->
+		    	<input type="text" name="author" placeholder="Put Author here">
+		    	<br>
+		    	<!-- comment -->
+		    	<textarea name="comment" rows="3" cols="60" placeholder="Put Comment Here"></textarea>
+		    	<br>
+				<button type="submit" name="addComment" class="btn btn-outline-dark">Save</button>
+		    </form>
+		</div>
+	{% endif %}
+{% endblock content %}

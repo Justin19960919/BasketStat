@@ -23,7 +23,8 @@ from django.urls import path, include   #include used in line 51 from django.con
 
 # Import app views
 from usrs import views as usr_views
-from posts import views as post_views
+# ex:
+# from posts import views as post_views
 
 
 #  To add media root (suitable for development)
@@ -33,11 +34,18 @@ from posts import views as post_views
 
 
 urlpatterns = [
+    # admin
     path('admin/', admin.site.urls),
+    
+    # game
+    path('game/', include('game.urls')),
+    # posts app
     path('posts/', include('posts.urls')),
-    # app views
+    
+    # home app
     path('', include('home.urls')),
-    #path('posts/', include('posts.urls')),
+    
+    
     # user register, login, logout views
     path('register/', usr_views.register, name='register'),
 	path('login/', auth_views.LoginView.as_view(template_name='usrs/login.html'), name='login'),
