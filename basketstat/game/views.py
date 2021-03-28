@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
-# return HttpResponseNotFound('<h1>Page not found</h1>')
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+
 # Create your views here.
 
 # import models
@@ -42,19 +42,17 @@ class GameListView(LoginRequiredMixin, ListView):
 @login_required
 def displayGameAndComment(request, id):
     foundGame = Game.objects.get(id=id)
+    print(foundGame)
     
     # if this is a post request
     if request.method == 'POST':
-        print("Received post request from adding comments ...")
-        print(request.POST)
-        print(request.POST['addComment'])
-        print(request.POST['comment'])
-        print(request.POST['author'])
-        # if we get a post request to add a comment
-        # verifying for the button
-        if request.POST['addComment'] == "":
+        if "addComment" in request.POST:
+            print("Received post request from adding comments ...")
+            print(request.POST)
+            # print(request.POST['addComment'])
+            # print(request.POST['comment'])
+            # print(request.POST['author'])
             print("Starting to fetch comment info..")
-
             commentInfo = request.POST.get('comment')
             commentAuthor = request.POST.get('author')
             comment_GameId = foundGame
@@ -67,31 +65,26 @@ def displayGameAndComment(request, id):
             print("Saved new comment")
 
     relatedComments = Comments.objects.filter(gameId=foundGame)
+    our_totalscore = foundGame.quarter1_score + \
+                     foundGame.quarter2_score + \
+                     foundGame.quarter3_score + \
+                     foundGame.quarter4_score
+    other_totalscore = foundGame.other_quarter1_score + \
+                     foundGame.other_quarter2_score + \
+                     foundGame.other_quarter3_score + \
+                     foundGame.other_quarter4_score
 
     info = {
         'game': foundGame,
-        'comments': relatedComments
+        'comments': relatedComments,
+        'our_totalscore': our_totalscore,
+        'other_totalscore': other_totalscore
+
     }
 
     #print(info)
     return render(request, 'game/game_detail.html', info)
 
-
-# original
-# @login_required
-# def displayGameAndComment(request, id):
-
-
-#     foundGame = Game.objects.get(id=id)
-#     relatedComments = Comments.objects.filter(gameId=foundGame)
-
-#     info = {
-#         'game': foundGame,
-#         'comments': relatedComments
-#     }
-
-#     #print(info)
-#     return render(request, 'game/game_detail.html', info)
 
 
 # create view
@@ -110,8 +103,9 @@ class GameCreateView(LoginRequiredMixin, CreateView):
 
 class GameUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Game
-    fields = ['season', 'opponent', 'area', 'dateOfGame', 
-              'nameOfGame', 'gameUrl']
+    fields = ['season', 'dateOfGame', 'nameOfGame', 'opponent', 'area',
+              'other_quarter1_score', 'other_quarter2_score', 'other_quarter3_score',
+              'other_quarter4_score', 'gameUrl']
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -134,14 +128,14 @@ class GameDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-def deleteComment():
-    # add messages
-    #messages.success(request, f"Your account has been created {username}!")
-    pass
 
-
-
-
+def deleteComment(request, comment_id):
+    comment = Comments.objects.get(id=comment_id)
+    cur_gameId = comment.gameId.id
+    print(comment)
+    comment.delete()
+    print("Deleted Comment!")
+    return HttpResponseRedirect(f'/game/list/{cur_gameId}')
 
 
 

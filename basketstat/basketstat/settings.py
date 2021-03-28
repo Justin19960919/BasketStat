@@ -122,10 +122,24 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+# tells Django to append static to the base url (in our case localhost:8000) when searching for static files // in development
+# if we wish, we can create one for each app
 STATIC_URL = '/static/'
 
+# loading static files (documentation)
+# https://learndjango.com/tutorials/django-static-files
+# https://www.mattlayman.com/understand-django/serving-static-files/
+'''
+This means that static files will be stored in the location 
+http://127.0.0.1:8000/static/ or http://localhost:8000/static/. 
+In order to notify Django of our new top-level static folder, 
+we must add a configuration for STATICFILES_DIRS telling Django to also look within a static folder.
+'''
+# STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),) 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+# for deployment, check out the upper two links
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 # Set media root (Directory that uploaded files will be saved)

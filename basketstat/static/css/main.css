@@ -125,6 +125,17 @@ a.game-title:hover {
   border-color: #A9A99E;
 }
 
+.comment a{
+  color:#353D45;
+}
+
+
+a.comment:hover {
+  color: #9AB4D5;
+}
+
+
+
 .comment h6{
   font-weight: bold;
   font-family: 'Train One', cursive;

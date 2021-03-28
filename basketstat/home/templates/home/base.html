@@ -14,15 +14,18 @@
     <!-- font awesome cdn -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- My css files -->
-    <link rel="stylesheet" type="text/css" href="{% static 'home/main.css' %}">
-    <!--  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!-- my js files -->
+    <link rel="stylesheet" href="{% static 'js/main.js' %}">
+
+    <!-- jquery cdn version 3.6.0 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- header -->
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-          
           <a class="navbar-brand" href="{% url 'home' %}">
             BasketStat
             <!-- we can put an img here if we want as logo -->
@@ -107,6 +110,7 @@
 
       <!-- Optional JavaScript -->
       <!-- jQuery first -->
+
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <!-- Popper js -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>

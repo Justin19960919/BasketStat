@@ -14,4 +14,5 @@ urlpatterns = [
 	# update and delete must be <int:pk>
 	path('list/<int:pk>/update/', GameUpdateView.as_view(), name = 'game-update'),
 	path('list/<int:pk>/delete/', GameDeleteView.as_view(), name = 'game-delete'),
+	path('deleteComment/<int:comment_id>/', views.deleteComment, name="delete-comment"),
 ]
