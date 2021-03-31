@@ -1,62 +1,52 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-
-# Create your views here.
-
+from django.contrib import messages
 # import player models
 from .models import PlayerRecord, Player
-
-# Login required for Class based views
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
-# Generic Views
-# from django.views.generic import (ListView, 
-#                                   DetailView, 
-#                                   CreateView,
-#                                   UpdateView,
-#                                   DeleteView)
-# for Ajax
-from django.http import JsonResponse
-from django.core import serializers
-from django.template.loader import render_to_string
 from .forms import PlayerForm
 
 
+@login_required
 def player_list(request):
-	player_form  = PlayerForm()
-	players = Player.objects.all()
-	return render(request, 'player/player_list.html', {'form': player_form, 'players': players})
-
-
-
-# ajax post view, ajax views can only deal with json
-# so, we need JsonResponse, serialize
-def postPlayer(request):
-    # request should be ajax and method should be POST.
-    if request.is_ajax and request.method == "POST":
-        print('got into view function')
-        # get the form data
-        form = PlayerForm(request.POST)
+    if request.method == 'POST':
+        print(request.POST)
         
-        # save the data and after fetch the object in instance
-        # need to do checks here if username of number already exists
-
+        form = PlayerForm(request.POST)
         if form.is_valid():
-            instance = form.save()
-            # serialize in new friend object in json
-            ser_instance = serializers.serialize('json', [ instance, ])
-            # send to client side.
-            return JsonResponse({"instance": ser_instance}, status=200)
-        else:
-            # some form errors occured.
-            return JsonResponse({"error": form.errors}, status=400)
+            # Check if number and name is taken
+            addform = form.save(commit = False)
+            addform.belongsTo = request.user
+            # check if already exists before save
+            # returns a boolean
+            if Player.objects.filter(name=addform.name, number=addform.number).exists():
+                # put out message
+                messages.info(request, f"Found a duplicate name and number!")
+                return redirect('player-list')
+            # else
+            addform.save()
+        return redirect('player-list')
+        
+    else:
+        user = request.user
+        player_form  = PlayerForm()
+        print(request.user)
+        players = Player.objects.filter(belongsTo = user)
+        print("Players: ", players)
+        # render page
+        return render(request, 'player/player_list.html', {'form': player_form, 'players': players})
 
-    # some error occured
-    return JsonResponse({"error": ""}, status=400)
+
+def delete_player(request, id):
+    
+    p = Player.objects.get(id = id)
+    p.delete()
+    return redirect('player-list')
+
+
+
+
+
 
 
 

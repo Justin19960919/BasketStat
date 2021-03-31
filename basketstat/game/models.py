@@ -12,7 +12,7 @@ class Game(models.Model):
     
     creator = models.ForeignKey(User, on_delete = models.CASCADE)
     # player
-
+    players = models.ManyToManyField("player.Player")
     nameOfGame = models.CharField(max_length = 20)
     season = models.CharField(max_length = 10)
     dateOfGame =  models.DateTimeField(default = timezone.now)   

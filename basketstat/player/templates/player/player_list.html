@@ -1,36 +1,21 @@
 {% extends 'home/base.html' %}
-{% load static %}
-
-
-
-{% block javascript %}
-  <script src="{% static 'js/player/player.js'%}"></script>
-{% endblock %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
   
   <!-- renders the PlayerForm (modelForm) -->
   <div class="container-fluid">
-      <form id="player-form">
-          <div class="row">
-              {% csrf_token %}
-              {% for field in form %}
-              <div class="form-group col-4">
-                  <label class="col-12">{{ field.label }}</label>
-                  {{ field }}
-              </div>
-              {% endfor %}
-              <input class="check" type="submit" class="btn btn-primary" value="Create Player" />
-          </div>
+      <form id="player-form" method="POST">
+        <div class="row">
+            {% csrf_token %}
+            {{ form|crispy }}
+        </div>
+        <input type="submit" value="submit">
       <form>
   </div>
 
-<p id="test">test</p>
-
-<!-- displays the previous stored player objects in the table -->
 <div class="container-fluid">
-    <table class="table table-striped table-sm" id="player-table">
+    <table class="table table-sm" id="player-table">
         <thead>
             <tr>
                 <th>Number</th>
@@ -38,12 +23,13 @@
             </tr>
         </thead>
         <tbody>
-        {% for player in players %}
-          <tr>
-              <td>{{player.number}}</td>
-              <td>{{player.name}}</td>
-          </tr>
-        {% endfor %}
+          {% for player in players %}
+            <tr>
+                <td><a href="{%url 'player-delete' player.id%}">X</a></td>
+                <td>{{player.number}}</td>
+                <td>{{player.name}}</td>
+            </tr>
+          {% endfor %}
         </tbody>
     </table>
 </div>

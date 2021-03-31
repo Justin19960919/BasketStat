@@ -3,7 +3,7 @@
 {% block content %}
 
 	{% for game in games %}
-	    <div class="game">
+	    <div class="game col-md-3">
 	      <div class="game-name">
 	      	<h3><a class="game-title" href="{% url 'game-detail' game.id %}">{{game.nameOfGame}}</a></h3>
 	      </div>

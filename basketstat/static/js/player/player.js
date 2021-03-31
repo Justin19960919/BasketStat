@@ -7,6 +7,9 @@ $(function () {
   })
 
 
+// {% block javascript %}
+//   <script src="{% static 'js/player/player.js'%}"></script>
+// {% endblock %} 
 
 
 

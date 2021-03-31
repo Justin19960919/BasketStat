@@ -3,9 +3,7 @@ from . import views
 
 urlpatterns = [
 	path('', views.player_list, name = "player-list"),
-	path('post_player/', views.postPlayer, name = "post-player"),
-
-
+	path('delete/<int:id>',views.delete_player, name="player-delete")
 ]
 
 
