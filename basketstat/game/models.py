@@ -4,28 +4,28 @@ from django.contrib.auth.models import User
 
 from django.urls import reverse
 from django.core.exceptions import ValidationError
-# Create your models here.
+
+
 
 
 class Game(models.Model):
+    
     creator = models.ForeignKey(User, on_delete = models.CASCADE)
-    # Additional information
+    # player
+
+    nameOfGame = models.CharField(max_length = 20)
     season = models.CharField(max_length = 10)
+    dateOfGame =  models.DateTimeField(default = timezone.now)   
     opponent = models.CharField(max_length = 20)
     area = models.CharField(max_length=20)
-    dateOfGame =  models.DateTimeField(default = timezone.now)
-    # name of game
-    nameOfGame = models.CharField(max_length = 20)
-    
-    # additional upload of url from youtube
-    gameUrl = models.CharField(blank=True, max_length = 500) 
+    gameUrl = models.URLField(blank=True)
 
+    ######## Scores ########
     # score of our team
     quarter1_score = models.IntegerField(default=0)
     quarter2_score = models.IntegerField(default=0)
     quarter3_score = models.IntegerField(default=0)
     quarter4_score = models.IntegerField(default=0)
-    
     # score of the other team
     other_quarter1_score = models.IntegerField(default=0)
     other_quarter2_score = models.IntegerField(default=0)
@@ -46,16 +46,16 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('game-detail', kwargs={'id': self.pk})
 
-    # nice, the clean function will automatically fire away, and save the
+    # Clean function will automatically fire away, and save the
     # changes made to the model fields
-    def clean(self):
-        url = self.gameUrl.split("v=")
-        if len(url) != 2:
-            raise ValidationError("Game url is not a valid url")
-        self.gameUrl = url[1]
-        print(url)
-        print(len(url))
-        print(self.gameUrl)
+    # def clean(self):
+    #     url = self.gameUrl.split("v=")
+    #     if len(url) != 2:
+    #         raise ValidationError("Game url is not a valid url")
+    #     self.gameUrl = url[1]
+    #     print(url)
+    #     print(len(url))
+    #     print(self.gameUrl)
 
 
 

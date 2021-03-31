@@ -15,11 +15,6 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- My css files -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <!-- my js files -->
-    <link rel="stylesheet" href="{% static 'js/main.js' %}">
-
-    <!-- jquery cdn version 3.6.0 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- header -->
@@ -106,12 +101,15 @@
         </div>
       </div>
       <!--  -->
-
-
-      <!-- Optional JavaScript -->
       <!-- jQuery first -->
-
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <!-- Non slim build of jquery -->
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <!-- our js file -->
+      <script  src="{% static 'js/main.js' %}"></script>
+      {% block javascript %}{% endblock %}
+      <!-- page specific js or extra js goes into block java script -->
+      
       <!-- Popper js -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
       <!-- Boostrap js -->

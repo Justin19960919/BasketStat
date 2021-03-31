@@ -1,5 +1,5 @@
 {% extends "home/base.html" %}
-
+{% load static %}
 
 {% block content %}
 	<!-- game information -->
@@ -45,11 +45,10 @@
 			<p>Area: {{game.area}}</p>
 		</div>
 
-		<!-- game video -->
-		<!-- <p>{{game.gameUrl}}</p> -->
-	    <div class="game-video">
+		<p><a href="{{game.gameUrl}}">Game Link</a></p>
+<!-- 	    <div class="game-video">
 	      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{game.gameUrl}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	    </div>
+	    </div> -->
 
 	{% if game.creator == user %}
 		<div>
@@ -91,15 +90,10 @@
 		    </form>
 		</div>
 	{% endif %}
-	
-	<!-- add js ajax -->
-<!-- 	<script type="text/javascript">
-		$(documment).on('submit','#leave-comment', function(event){
-		    event.preventDefault();			// prevent page from reloading
-			console.log("form submitted!")  // sanity check
-			// create_post(); // some function to fire
-		})
-	</script> -->
+
+
+
+
 
 
 {% endblock content %}

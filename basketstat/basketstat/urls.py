@@ -37,15 +37,21 @@ urlpatterns = [
     # admin
     path('admin/', admin.site.urls),
     
+    # players
+    path('players/',include('player.urls')),
+
     # game
     path('game/', include('game.urls')),
+    
     # posts app
     path('posts/', include('posts.urls')),
     
     # home app
     path('', include('home.urls')),
     
-    
+    # my app (example for ajax)
+    path('example/', include('my_app.urls')),
+
     # user register, login, logout views
     path('register/', usr_views.register, name='register'),
 	path('login/', auth_views.LoginView.as_view(template_name='usrs/login.html'), name='login'),

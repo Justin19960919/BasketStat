@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'my_app.apps.MyAppConfig',
     'player.apps.PlayerConfig',
     'game.apps.GameConfig',
     'home.apps.HomeConfig',

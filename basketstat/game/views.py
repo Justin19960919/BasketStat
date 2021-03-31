@@ -132,7 +132,6 @@ class GameDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def deleteComment(request, comment_id):
     comment = Comments.objects.get(id=comment_id)
     cur_gameId = comment.gameId.id
-    print(comment)
     comment.delete()
     print("Deleted Comment!")
     return HttpResponseRedirect(f'/game/list/{cur_gameId}')
