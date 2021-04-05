@@ -1,0 +1,117 @@
+Model Field choices:
+BooleanField
+CharField
+FileField: file upload field
+FloatField
+ImageField
+IntegerField
+JSONField 	// in 3.1 version
+
+---- Relationship fields --
+FK:
+A "many-to-one" relationship. Requires two positional arguments: the class to which the model is related and the on_delete option.
+from django.db import models
+
+class Car(models.Model):
+    manufacturer = models.ForeignKey(
+        'Manufacturer',	// can use name, if model hasn't been defined
+        on_delete=models.CASCADE,
+    )
+    # ...
+
+class Manufacturer(models.Model):
+    # ...
+    pass
+
+class Song(models.Model):
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.RESTRICT)
+// RESTRICT: prevent deletion
+
+
+
+
+
+Model Field attributes:
+
+
+
+models.__field(
+null=True 	// default is False
+blank=True	// default is False
+choices=
+
+
+)
+
+
+
+class Student(models.Model):
+    FRESHMAN = 'FR'
+    SOPHOMORE = 'SO'
+    JUNIOR = 'JR'
+    SENIOR = 'SR'
+    GRADUATE = 'GR'
+    
+## The first element in each tuple is the actual value to be set on the model, and the second element is the human-readable name
+    YEAR_IN_SCHOOL_CHOICES = [
+        (FRESHMAN, 'Freshman'),
+        (SOPHOMORE, 'Sophomore'),
+        (JUNIOR, 'Junior'),
+        (SENIOR, 'Senior'),
+        (GRADUATE, 'Graduate'),
+    ]
+    year_in_school = models.CharField(
+        max_length=2,
+        choices=YEAR_IN_SCHOOL_CHOICES,
+        default=FRESHMAN,
+    )
+
+    def is_upperclass(self):
+        return self.year_in_school in {self.JUNIOR, self.SENIOR}
+
+
+
+// Enums:
+class Vehicle(models.TextChoices):
+...     CAR = 'C'
+...     TRUCK = 'T'
+...     JET_SKI = 'J'
+class Card(models.Model):
+
+    class Suit(models.IntegerChoices):
+        DIAMOND = 1
+        SPADE = 2
+        HEART = 3
+        CLUB = 4
+
+    suit = models.IntegerField(choices=Suit.choices)
+
+
+
+// help text
+help_text="Please use the following format: <em>YYYY-MM-DD</em>."
+
+
+// PK
+Field.primary_key¶
+If True, this field is the primary key for the model.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

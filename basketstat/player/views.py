@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 # import player models
-from .models import PlayerRecord, Player
+from .models import Player
 from django.contrib.auth.decorators import login_required
 
 from .forms import PlayerForm

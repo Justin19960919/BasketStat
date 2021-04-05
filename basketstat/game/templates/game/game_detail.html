@@ -3,95 +3,151 @@
 
 {% block content %}
 	<!-- game information -->
-
+<div class="container-fluid p-0 main-body">
+  <div class="row no-gutters">
+    <div class='col-lg-12'>
 	<!-- game score table (temporary) need to update styling-->
-	<div class="game-detail">
-		<table class="table game-quarter-score">
-		  <thead>
-		    <tr>
-		      <th scope="col">Teams</th>
-		      <th scope="col">Q1</th>
-		      <th scope="col">Q2</th>
-		      <th scope="col">Q3</th>
-		      <th scope="col">Q4</th>
-		      <th scope="col">Total</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-		      <th scope="row">Us</th>
-		      <td>{{game.quarter1_score}}</td>
-		      <td>{{game.quarter2_score}}</td>
-		      <td>{{game.quarter3_score}}</td>
-		      <td>{{game.quarter4_score}}</td>
-		      <td>{{our_totalscore}}</td>
-		    </tr>
+		<div class="game-detail">
+			<table class="table game-quarter-score">
+			  <thead>
+			    <tr>
+			      <th scope="col">Teams</th>
+			      <th scope="col">Q1</th>
+			      <th scope="col">Q2</th>
+			      <th scope="col">Q3</th>
+			      <th scope="col">Q4</th>
+			      <th scope="col">Total</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row">Us</th>
+			      <td>{{game.quarter1_score}}</td>
+			      <td>{{game.quarter2_score}}</td>
+			      <td>{{game.quarter3_score}}</td>
+			      <td>{{game.quarter4_score}}</td>
+			      <td>{{our_totalscore}}</td>
+			    </tr>
 
-		    <tr>
-		      <th scope="row">{{game.opponent}}</th>
-		      <td>{{game.other_quarter1_score}}</td>
-		      <td>{{game.other_quarter2_score}}</td>
-		      <td>{{game.other_quarter3_score}}</td>
-		      <td>{{game.other_quarter4_score}}</td>
-		      <td>{{other_totalscore}}</td>
-  		    </tr>
-		  </tbody>
-		</table>
-	    
-	    <div class="game-info">
-			<h5>Game infomation</h5>    
-			<p>Season: {{game.season}}</p>
-			<p>Date: {{game.dateOfGame}}</p>
-			<p>Area: {{game.area}}</p>
+			    <tr>
+			      <th scope="row">{{game.opponent}}</th>
+			      <td>{{game.other_quarter1_score}}</td>
+			      <td>{{game.other_quarter2_score}}</td>
+			      <td>{{game.other_quarter3_score}}</td>
+			      <td>{{game.other_quarter4_score}}</td>
+			      <td>{{other_totalscore}}</td>
+	  		    </tr>
+			  </tbody>
+			</table>
+		    
+			<!-- render player records here -->
+			<table>
+				<tr>
+					<th>Player Number</th>
+					<th>Player Name</th>
+					<th>Number of Minutes played</th>
+					<th>Two pointers</th>
+					<th>Two pointers Made</th>
+					<th>Three pointers</th>
+					<th>Three pointers Made</th>
+					<th>Free throws</th>
+					<th>Free throws Made</th>
+					<th>Offensive Rebound</th>
+					<th>Defensive Rebound</th>
+					<th>Blocks</th>
+					<th>Steals</th>
+					<th>Assists</th>
+					<th>Turnovers</th>
+					<th>Offensive Foul</th>
+					<th>Defensive Foul</th>
+				</tr>
+				{% for pr in player_records %}
+					<tr>
+						<td>{{pr.playerId.number}}</td>
+						<td>{{pr.playerId.name}}</td>
+						<td>{{pr.numberOfMinutesPlayer}}</td>
+						<td>{{pr.twoPointers}}</td>
+						<td>{{pr.twoPointersMade}}</td>
+						<td>{{pr.threePointers}}</td>
+						<td>{{pr.threePointersMade}}</td>
+						<td>{{pr.freethrows}}</td>
+						<td>{{pr.freethrowMade}}</td>
+						<td>{{pr.offensiveRebound}}</td>
+						<td>{{pr.defensiveRebound}}</td>
+						<td>{{pr.block}}</td>
+						<td>{{pr.steal}}</td>
+						<td>{{pr.assist}}</td>
+						<td>{{pr.turnover}}</td>
+						<td>{{pr.offensiveFoul}}</td>
+						<td>{{pr.defensiveFoul}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+
+
+
+
+
+
+
+		    <div class="game-info">
+				<h5>Game infomation</h5>    
+				<p>Season: {{game.season}}</p>
+				<p>Date: {{game.dateOfGame}}</p>
+				<p>Area: {{game.area}}</p>
+			</div>
+
+			<p><a href="{{game.gameUrl}}">Game Link</a></p>
+			
+			<p>All players</p>
+			{% for player in players %}
+				<p>{{player.number}} | {{player.name}}</p>
+			{%endfor %}
+
+
+		{% if game.creator == user %}
+			<div>
+				<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
+				<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
+			</div>
+		{% endif %}
+
 		</div>
 
-		<p><a href="{{game.gameUrl}}">Game Link</a></p>
-<!-- 	    <div class="game-video">
-	      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{game.gameUrl}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	    </div> -->
-
-	{% if game.creator == user %}
-		<div>
-			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
-			<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
-		</div>
-	{% endif %}
-
-	</div>
 
 
+		<!-- comments -->
+		{% for comment in comments %}	
+		  <div class="comment">
+	    	<!-- this is by using an absolute url -->
+	    	<form method='post' id="delete-comment" action="/game/deleteComment/{{comment.id}}/">
+	    		{% csrf_token %}
+	    		<button type="submit">X</button>
+	    	</form>
 
-	<!-- comments -->
-	{% for comment in comments %}	
-	  <div class="comment">
-    	<!-- this is by using an absolute url -->
-    	<form method='post' id="delete-comment" action="/game/deleteComment/{{comment.id}}/">
-    		{% csrf_token %}
-    		<button type="submit">X</button>
-    	</form>
+		    <h6>{{comment.author}} | {{comment.date}} </h6>  
+		    <p>{{comment.comment}}</p>
+		  </div>
+		{% endfor %}
 
-	    <h6>{{comment.author}} | {{comment.date}} </h6>  
-	    <p>{{comment.comment}}</p>
-	  </div>
-	{% endfor %}
-
-	{% if game.creator == user %}
-	    <!-- leave comment -->
-	    <div class="leave-comment">
-		    <form autocomplete="off" id="leave-comment" method='post' action="">
-		    	{% csrf_token %}
-				<!-- author -->
-		    	<input type="text" name="author" placeholder="Put Author here">
-		    	<br>
-		    	<!-- comment -->
-		    	<textarea name="comment" rows="10" cols="70" placeholder="Put Comment Here"></textarea>
-		    	<br>
-				<button type="submit" name="addComment" class="btn btn-outline-dark">Save</button>
-		    </form>
-		</div>
-	{% endif %}
-
-
+		{% if game.creator == user %}
+		    <!-- leave comment -->
+		    <div class="leave-comment">
+			    <form autocomplete="off" id="leave-comment" method='post' action="">
+			    	{% csrf_token %}
+					<!-- author -->
+			    	<input type="text" name="author" placeholder="Put Author here">
+			    	<br>
+			    	<!-- comment -->
+			    	<textarea name="comment" rows="10" cols="70" placeholder="Put Comment Here"></textarea>
+			    	<br>
+					<button type="submit" name="addComment" class="btn btn-outline-dark">Save</button>
+			    </form>
+			</div>
+		{% endif %}
+    </div>
+  </div>
+</div>
 
 
 

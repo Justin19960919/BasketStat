@@ -1,7 +1,8 @@
 {% extends "home/base.html" %}
 
 {% block content %}
-
+<div class="container-fluid p-0 main-body">
+  <div class="row no-gutters">
 	{% for game in games %}
 	    <div class="game col-md-3">
 	      <div class="game-name">
@@ -15,4 +16,6 @@
 	      </div>
 	    </div>
 	{% endfor %}
+  </div>
+</div>
 {% endblock content %}

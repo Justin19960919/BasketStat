@@ -1,31 +1,153 @@
 {% extends "home/base.html" %}
+{% load static %}
 {% block content %}
-<div class="col-md-8">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+	<!-- making a logo, use in base.html -->
+	<!-- https://logomakr.com/ -->
+	<div class="container-fluid p-0">
+		<div class="row no-gutters banner">
+			<div class='col-lg-12'>
+				<div class="landing-bg" style="background-image: url('static/img/basketball.jpg')">
+					<div class="landing-text">
+						<div class='landing-text-header'>
+							<h1>Meet <span id="b1">Basket</span><span id="b2">Stat</span></h1>
+							<h5>Your friend in all things basketball</h5>
+						</div>
+						<div class="landing-text-services">
+							<ul>
+								<li>Game Posts</li>
+								<li>Game Records</li>
+								<li>Automatic High level Player Statistics</li>
+								<li>Real Time Score tracking</li>
+							</ul>
+						</div>
+						<button type="button">
+							<a class="nav-link get-started" href="{% url 'about'%}">Get Started</a>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Block -->
+		<div class="container my-5 py-2 py-10">
+			<h2 class="text-center font-weight-bold my-5">Features</h2>
+			<div class="row">
+				<div class="col-md-3 text-center">
+					<i class="fas fa-blog fa-5x" alt="blog-icon"></i>
+					<h4>Blog Posting</h4>
+					<p>Share your feelings and record basketball practices for improvement</p>
+				</div>
+				<div class="col-md-3 text-center">
+					<i class="fas fa-basketball-ball fa-5x" alt="basketball"></i>
+					
+					<h4>Game Records</h4>
+					<p>Preserve game records to keep track and analyze</p>
+				</div>
+				<div class="col-md-3 text-center">
+					<i class="fas fa-chart-line fa-5x" alt="charts"></i>
+					<h4>High level Statistics</h4>
+					<p>Automatic generation of high level statistics for players</p>
+				</div>
+				<div class="col-md-3 text-center">
+					<i class="fas fa-clipboard fa-5x" alt="record"></i>
+					<h4>Score tracking</h4>
+					<p>Keep track of player records on the phone instead of on paper</p>
+				</div>
+			</div>
+		</div>
 
 
-    <!-- info -->
-    <p>Home page</p>
+		<!-- feature (skew background) -->
+		<div class="jumbotron jumbotron-fluid feature" id="feature-first">
+			<div class="container my-5">
+				<div class="row justify-content-between text-center text-md-left">
+					<div data-aos="fade-right" data-aos-duration="1000" data-aos-once="true" class="col-md-6">
+						<h2 class="font-weight-bold">Blog Posts</h2>
+						<p class="my-4"> Share feelings and discuss through blog posts.
+						<br> Your best friend to manage a basketball team</p>
+						<a href="#" class="btn my-4 font-weight-bold atlas-cta cta-blue">Learn More</a>
+					</div>
+					<div data-aos="fade-left" data-aos-duration="1000" data-aos-once="true" class="col-md-6 align-self-center">
+						<img src="static/img/feature-1.png" alt="Take a look inside" class="mx-auto d-block">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- feature (green background) -->
+		<div class="jumbotron jumbotron-fluid feature" id="feature-last">
+			<div class="container">
+				<div class="row justify-content-between text-center text-md-left">
+					<div data-aos="fade-left" data-aos-duration="1000" data-aos-once="true" class="col-md-6 flex-md-last">
+						<h2 class="font-weight-bold">Analytics</h2>
+						<p class="my-4">
+							Calculation of high level player statistics, all done by us. 
+							<br> Analyze and improve, elevate the team, as well as the players.
+						</p>
+						<a href="#" class="btn my-4 font-weight-bold atlas-cta cta-blue">Learn More</a>
+					</div>
+					<div data-aos="fade-right" data-aos-duration="1000" data-aos-once="true" class="col-md-6 align-self-center flex-md-first">
+						<img src="static/img/feature-2.png" alt="Safe and reliable" class="mx-auto d-block">
+					</div>
+				</div>
+			</div>
+		</div>
 
-</div>
+ 		
+ 		<!-- style="background-image: url(static/img/contact-bk.jpg);" -->
+		<!-- contact -->
+		<div class="jumbotron jumbotron-fluid" id="contact">
+			<div class="container my-5">
+				<div class="row justify-content-between">
+					<div class="col-md-6 text-white">
+						<h2 class="font-weight-bold">Contact Us</h2>
+						
+						<div class="my-4">
+							This website is owned by Chieh Lin Lee, 
+							<br>
+							if you have 
+							any questions, or upgrade requests, 
+							<br>feel free to contact 
+							me through the contact form.
+						</div>
 
 
-
-<!-- sidebar -->
-<div class='col-md-4'>
-	<div class="content-section">
-	  <h3>Our Sidebar</h3>
-	  <p class='text-muted'>You can put any information here you'd like.
-	    <!-- list group -->
-	    <ul class="list-group">
-	      <li class="list-group-item list-group-item-light">Latest Posts</li>
-	      <li class="list-group-item list-group-item-light">Announcements</li>
-	      <li class="list-group-item list-group-item-light">Calendars</li>
-	    </ul>
-	  </p>
+						<ul class="list-unstyled">
+							<li>Email : chiehlinleee@gmail.com</li>
+							<li>Phone : 347-345-9083</li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<form>
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label for="name">Your Name</label>
+									<input type="name" class="form-control" id="name">
+								</div>
+								<div class="form-group col-md-6">
+									<label for="Email">Your Email</label>
+									<input type="email" class="form-control" id="Email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="message">Message</label>
+								<textarea class="form-control" id="message" rows="3"></textarea>
+							</div>
+							<button type="submit" class="btn font-weight-bold atlas-cta atlas-cta-wide my-3">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-
-
+	<!-- footer -->
+	<footer id="footer">
+		<div class="container-fluid">
+		  <a href="https://github.com/Justin19960919"><i class="social-icon  fab fa-github"></i></a>
+		  <a href = "mailto: chiehlinleee@gmail.com"><i class="social-icon  fas fa-envelope"></i></a>
+		  <a href="https://www.linkedin.com/in/chieh-lin-lee/"><i class="social-icon  fab fa-linkedin"></i></a>
+		  
+		  <p>© Copyright 2021 BasketStat</p>
+		</div>
+	</footer>
 {% endblock content %}
-
-

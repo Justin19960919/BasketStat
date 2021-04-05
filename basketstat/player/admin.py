@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import PlayerRecord, Player
+from .models import Player
 
 # Register your models here.
-myModels = [PlayerRecord, Player]
-admin.site.register(myModels)
+
+admin.site.register(Player)

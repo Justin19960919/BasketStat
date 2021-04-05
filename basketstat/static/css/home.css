@@ -1,0 +1,196 @@
+
+/*https://www.w3schools.com/howto/howto_css_full_page.asp*/
+/*airbus*/
+.landing-bg{ 
+	background-size:cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color:#404040;
+	
+	height: 150%;
+	color: #e1e1e1; 	
+	padding: 100px;
+	
+	position: relative;
+	margin-top: 4rem;
+	margin-bottom: 5rem;
+}
+
+.banner{
+	margin-bottom: 15rem;
+}
+
+/*color layouts*/
+/*https://brandcolors.net/*/
+
+
+#b1{
+	color:#74d2e7;
+	font-size: 4rem;
+}
+
+#b2{
+
+}
+
+
+.landing-text{
+	position: absolute;
+	top: 60px;
+	right: 50px;
+}
+
+.landing-text button{
+    margin: 40px auto 0px 10px;
+    /*background-color: #48a9c5;*/
+    background-color: #e7e7e7;
+	font-size: 20px;
+}
+
+.get-started{
+    color: black;
+}
+
+.get-started:hover{
+   color:#74d2e7;
+}
+
+.landing-text-header{
+	font-family: 'Montserrat', sans-serif;
+}
+
+
+.landing-text-services{
+	margin-top: 60px;
+	font-weight: bold;
+	font-size:15px;
+}
+
+.landing-text-services li{
+	margin-bottom: 5px;
+}
+
+
+
+/*atlas css*/
+/********** General **********/
+.atlas-cta {
+    border-radius: 22px !important;
+    padding: 12px 30px !important;
+    font-weight: 700;
+    transition: .3s ease-in-out !important;
+}
+
+.atlas-cta:hover {
+    text-decoration: none;
+    transform: translateY(-5px);
+}
+
+.atlas-cta-wide {
+    width: 100%;
+}
+
+.cta-green {
+    background: #00FFAD;
+    color: #192440;
+}
+
+.cta-green:hover {
+    color: #ffffff;
+    background: #00e69c;
+}
+
+.cta-blue {
+    background: #192440;
+    color: #ffffff;
+}
+
+.cta-blue:hover {
+    color: #ffffff;
+    background: #121a2e;
+}
+
+.cta-ghost {
+    border: 2px solid #192440 !important;
+    color: #192440;
+}
+
+.cta-ghost:hover {
+    color: #ffffff;
+    background: #121a2e;
+}
+/********** Block **********/
+.fas{
+	margin-bottom: 30px;
+}
+
+
+
+
+
+
+/********** feature (skew background) **********/
+.feature img {
+    width: 100%;
+    max-width: 480px;
+}
+
+#feature-first {
+    background: linear-gradient(168deg, #ffffff 55%, #74d2e7 0);
+}
+
+#feature-last {
+    background: #74d2e7;
+}
+
+
+
+/********** contact **********/
+#contact {
+    background-size: cover;
+    background-color: #050f2c;
+}
+
+#contact ul li {
+    padding: 3px 0;
+}
+
+#contact form {
+    color: white;
+}
+
+#contact form input,
+#contact form textarea {
+    /*background: transparent;*/
+    border: 2px solid white;
+    color: white;
+}
+
+
+/********** Copyright (footer) **********/
+#footer { 
+    background-color: #fafafa;
+    height: 100px;
+    margin: 30px auto 0px auto;
+    text-align: center;
+}
+
+.social-icon {
+    margin: 20px 15px;
+    color:black ;
+}
+
+
+/********** RWD **********/
+@media (max-width: 575px) {
+    #banner h1 {
+        font-size: 3.6rem;
+    }
+}
+
+
+
+
+
+
+

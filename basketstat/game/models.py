@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from django.urls import reverse
 from django.core.exceptions import ValidationError
-
+from player.models import Player
 
 
 
@@ -12,7 +12,7 @@ class Game(models.Model):
     
     creator = models.ForeignKey(User, on_delete = models.CASCADE)
     # player
-    players = models.ManyToManyField("player.Player")
+    players = models.ManyToManyField(Player)
     nameOfGame = models.CharField(max_length = 20)
     season = models.CharField(max_length = 10)
     dateOfGame =  models.DateTimeField(default = timezone.now)   
@@ -35,6 +35,7 @@ class Game(models.Model):
 
     def __str__(self):
         return f"Creator: {self.creator.username},\
+                 Players:,{self.players}\
                  Season: {self.season}, \
                  Opponent: {self.opponent}, \
                  Area: {self.area}, \
@@ -60,7 +61,6 @@ class Game(models.Model):
 
 
 
-
 class Comments(models.Model):
     gameId = models.ForeignKey('Game', on_delete = models.CASCADE)  # foreign key to point to the game
 
@@ -79,4 +79,41 @@ class Comments(models.Model):
                  author: {self.author}\
                  date: {self.date}\
                  comment: {self.comment}."
+
+
+
+# Player records
+class PlayerRecord(models.Model):
+    
+    # point to record
+    playerId = models.ForeignKey(Player, on_delete = models.CASCADE)
+    gameId = models.ForeignKey(Game, on_delete = models.CASCADE)
+
+    twoPointers = models.IntegerField(default = 0)
+    twoPointersMade = models.IntegerField(default = 0)
+
+    threePointers = models.IntegerField(default = 0)
+    threePointersMade = models.IntegerField(default = 0)
+
+    freethrows = models.IntegerField(default = 0)
+    freethrowMade = models.IntegerField(default = 0)
+
+    offensiveRebound = models.IntegerField(default = 0)
+    defensiveRebound = models.IntegerField(default = 0)
+
+    block = models.IntegerField(default = 0)
+    steal = models.IntegerField(default = 0)
+    assist = models.IntegerField(default = 0)
+    turnover = models.IntegerField(default = 0)
+
+    offensiveFoul = models.IntegerField(default = 0)
+    defensiveFoul = models.IntegerField(default = 0)
+
+    numberOfMinutesPlayed = models.IntegerField(default = 0)
+
+
+
+    def __str__(self):
+        return f"playerId: {self.playerId.id}; gameId: {self.gameId.id},\
+        twoPointers: {self.twoPointers}... etc"
 

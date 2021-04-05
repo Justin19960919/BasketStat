@@ -1,23 +1,39 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
-            <!-- have to have the crsf token -->
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Become a user</legend>
-                <!-- passed in form object -->
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+<div class="container-fluid p-0 main-body">
+  <div class="row no-gutters">
+    <!-- messages -->
+    {% if messages %}
+        {% for message in messages %}
+          <!-- render according to the message tags -->
+          <!-- alert alert-success ; alert alert-warning..etc -->
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+    <div class='col-lg-12'>
+        <div class="content-section">
+            <form method="POST">
+                <!-- have to have the crsf token -->
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Become a user</legend>
+                    <!-- passed in form object -->
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+                </small>
             </div>
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
-            </small>
         </div>
     </div>
+  </div>
+</div>
 {% endblock content %}

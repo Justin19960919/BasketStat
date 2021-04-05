@@ -2,21 +2,37 @@
 
 
 {% block content %}
-	
-	{% for post in posts %}
-		<div class='post-background'>
-		  <h2><a class="post-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-		  <div class="post-metadata">
-		    <small class="mr-2">{{ post.author }}</small>
-		    <small class="text-muted">{{ post.date }}</small>
-		  </div>
+	<div class="container-fluid p-0 main-body">
+		<div class="row">
+			<div class='col-md-8'>
+				{% for post in posts %}
+					<div class='post-background'>
+					  <h2><a class="post-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+					  <div class="post-metadata">
+					    <small class="mr-2">{{ post.author }}</small>
+					    <small class="text-muted">{{ post.date }}</small>
+					  </div>
 
-		  <p class="post-content">{{ post.content }}</p>
+					  <p class="post-content">{{ post.content }}</p>
+					</div>
+				{% endfor %}
+			</div>
+			<!-- sidebar -->
+		    <div class="col-md-4">
+		      <div class="content-section">
+		        <h3>Our Sidebar</h3>
+		        <p class='text-muted'>You can put any information here you'd like.
+		          <ul class="list-group">
+		            <li class="list-group-item list-group-item-light">Latest Posts</li>
+		            <li class="list-group-item list-group-item-light">Announcements</li>
+		            <li class="list-group-item list-group-item-light">Calendars</li>
+		            <li class="list-group-item list-group-item-light">etc</li>
+		          </ul>
+		        </p>
+		      </div>
+		    </div>
 		</div>
-	{% endfor %}
-
-
-
+	</div>	
 
 
 {% endblock content %}

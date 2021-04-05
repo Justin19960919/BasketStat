@@ -1,18 +1,25 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
-            <!-- have to have the crsf token -->
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Create Game</legend>
-                <!-- passed in form object -->
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Submit</button>
-            </div>
-        </form>
+<div class="container-fluid p-0 main-body">
+  <div class="row no-gutters">
+    <div class='col-lg-12'>    
+        <div class="content-section">
+            <form method="POST">
+                <!-- have to have the crsf token -->
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Create Game</legend>
+                    <p><a href="{% url 'player-list' %}">No Players? Create Players for selection.</a></p>
+                    <!-- passed in form object -->
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
+  </div>
+</div>
 {% endblock content %}

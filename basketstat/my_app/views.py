@@ -1,3 +1,10 @@
+### django ajax resources ###
+'''
+https://simpleisbetterthancomplex.com/tutorial/2016/08/29/how-to-work-with-ajax-request-with-django.html
+https://simpleisbetterthancomplex.com/tutorial/2016/11/15/how-to-implement-a-crud-using-ajax-and-json.html
+https://www.pluralsight.com/guides/work-with-ajax-django
+
+'''
 from django.shortcuts import render
 
 # Create your views here.
