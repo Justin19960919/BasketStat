@@ -103,17 +103,21 @@ class Stat:
         # returns a dict for further pandas df merging
         
         statLine = {
-            "Points": self.getPoints(),
-            "Field Goal Made": self.getFieldGoalMade(),
-            "Field Goal Attempts": self.getFieldGoalAttempts(),
-            "Field Goal Percentage": self.getFieldGoalPercentage(),
-            "2 Pointer Percentage": self.getTwoPointPercentage(),
-            "3-Pointer Percentage": self.getThreePointPercentage(),
-            "Free Throw Percentage": self.getFreeThrowPercentage(),
-            "Efficiency (EFF)": self.getEfficiency(),
-            "Game Score (GmSc)":self.getGmsc(),
-            "Effective Field Goal Percentage (efg%)":self.getEfg(),
-            "True Shooting Percentage (TS)":self.getTS()
+            "PTS": self.getPoints(),
+            "FGM": self.getFieldGoalMade(),
+            "FGA": self.getFieldGoalAttempts(),
+            "FG": self.getFieldGoalPercentage(),
+            "2PP": self.getTwoPointPercentage(),
+            "3PP": self.getThreePointPercentage(),
+            "FTP": self.getFreeThrowPercentage(),
+            "EFF": self.getEfficiency(),
+            "GMSC":self.getGmsc(),
+            "EFG":self.getEfg(),
+            "TS":self.getTS()
         }
 
         return statLine
+
+
+
+
