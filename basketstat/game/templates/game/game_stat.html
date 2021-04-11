@@ -1,0 +1,46 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid p-0 main-body">
+  <div class="row no-gutters">
+
+  			<!-- render player records here -->
+	<table class="table table-sm table-light" style="margin-top: 40px; margin-bottom: 20px;">
+		<tr>
+			<th>Player Number</th>
+			<th>Player Name</th>
+			<th>Points</th>
+			<th>Field Goals Made</th>
+			<th>Field Goal Attempts</th>
+			<th>Field Goal Percentage</th>
+			<th>Two Point Percentage</th>
+			<th>Three Point Percentage</th>
+			<th>FreeThrowPercentage</th>
+			<th>Efficiency</th>
+			<th>Gmsc</th>
+			<th>eFG%</th>
+			<th>TS</th>
+		</tr>
+		{% for ps in stats %}
+			<tr>
+				<td>{{ps.Number}}</td>
+				<td>{{ps.Name}}</td>
+				<td>{{ps.PTS}}</td>
+				<td>{{ps.FGM}}</td>
+				<td>{{ps.FGA}}</td>
+				<td>{{ps.FGP}}</td>
+				<td>{{ps.2PP}}</td>
+				<td>{{ps.3PP}}</td>
+				<td>{{ps.FTP}}</td>
+				<td>{{ps.EFF}}</td>
+				<td>{{ps.GMSC}}</td>
+				<td>{{ps.EFG}}</td>
+				<td>{{ps.TS}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+  </div>
+</div>
+{% endblock content %}

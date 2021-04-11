@@ -1,5 +1,3 @@
-
-// ajax example
 // ajax
 // go to url /user/create/  -- urls.py
 // $.ajax({
@@ -35,4 +33,9 @@ $("#hide").click(function(){
 });
 
 
+// auto refresh
 
+
+function AutoRefresh(t) {
+	setTimeout("location.reload(true);", t);
+}

@@ -1,10 +1,11 @@
 {% extends "home/base.html" %}
 {% load static %}
-
 {% block content %}
-	<!-- game information -->
+
+
 <div class="container-fluid p-0 main-body">
   <div class="row no-gutters">
+
     <div class='col-lg-12'>
 	<!-- game score table (temporary) need to update styling-->
 		<div class="game-detail">
@@ -26,7 +27,7 @@
 			      <td>{{game.quarter2_score}}</td>
 			      <td>{{game.quarter3_score}}</td>
 			      <td>{{game.quarter4_score}}</td>
-			      <td>{{our_totalscore}}</td>
+			      <td>{{game.total_score}}</td>
 			    </tr>
 
 			    <tr>
@@ -35,13 +36,13 @@
 			      <td>{{game.other_quarter2_score}}</td>
 			      <td>{{game.other_quarter3_score}}</td>
 			      <td>{{game.other_quarter4_score}}</td>
-			      <td>{{other_totalscore}}</td>
+			      <td>{{game.other_total_score}}</td>
 	  		    </tr>
 			  </tbody>
 			</table>
 		    
 			<!-- render player records here -->
-			<table>
+			<table class="table table-sm table-light" style="margin-top: 40px; margin-bottom: 20px;">
 				<tr>
 					<th>Player Number</th>
 					<th>Player Name</th>
@@ -84,7 +85,7 @@
 				{% endfor %}
 			</table>
 
-
+			<!-- <a class="btn btn-dark btn-sm mb-3" href="">Advanced Stats</a> -->
 
 
 
@@ -99,10 +100,10 @@
 
 			<p><a href="{{game.gameUrl}}">Game Link</a></p>
 			
-			<p>All players</p>
+<!-- 			<p>All players</p>
 			{% for player in players %}
 				<p>{{player.number}} | {{player.name}}</p>
-			{%endfor %}
+			{%endfor %} -->
 
 
 		{% if game.creator == user %}
@@ -129,24 +130,28 @@
 		    <p>{{comment.comment}}</p>
 		  </div>
 		{% endfor %}
-
-		{% if game.creator == user %}
-		    <!-- leave comment -->
-		    <div class="leave-comment">
-			    <form autocomplete="off" id="leave-comment" method='post' action="">
-			    	{% csrf_token %}
-					<!-- author -->
-			    	<input type="text" name="author" placeholder="Put Author here">
-			    	<br>
-			    	<!-- comment -->
-			    	<textarea name="comment" rows="10" cols="70" placeholder="Put Comment Here"></textarea>
-			    	<br>
-					<button type="submit" name="addComment" class="btn btn-outline-dark">Save</button>
-			    </form>
-			</div>
-		{% endif %}
     </div>
   </div>
+
+ <!-- this needs css styling fix -->
+  <div class="row no gutters" style="margin-left: 60px;">
+	{% if game.creator == user %}
+	    <!-- leave comment -->
+	    <div>
+		    <form autocomplete="off" id="leave-comment" method='post' action="">
+		    	{% csrf_token %}
+				<!-- author -->
+		    	<input type="text" name="author" placeholder="Put Author here">
+		    	<br>
+		    	<!-- comment -->
+		    	<textarea name="comment" rows="10" cols="70" placeholder="Put Comment Here"></textarea>
+		    	<br>
+				<button type="submit" name="addComment" class="btn btn-outline-dark">Save</button>
+		    </form>
+		</div>
+	{% endif %}
+  </div>
+
 </div>
 
 

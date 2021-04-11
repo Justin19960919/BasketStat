@@ -19,9 +19,19 @@
         </div>
 
         <div class="container-fluid">
+            {% if messages %}
+              {% for message in messages %}
+                <!-- render according to the message tags -->
+                <!-- alert alert-success ; alert alert-warning..etc -->
+                <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
             <table class="table table-sm" id="player-table">
                 <thead>
                     <tr>
+                        <th>Action</th>
                         <th>Number</th>
                         <th>Name</th>
                     </tr>

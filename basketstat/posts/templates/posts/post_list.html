@@ -5,6 +5,11 @@
 	<div class="container-fluid p-0 main-body">
 		<div class="row">
 			<div class='col-md-8'>
+				<!-- create post btn -->
+
+				<a class="btn btn-outline-dark btn-lg mt-3 mb-2" href="{% url 'post-create'%}" style="margin-left:20px;">Create Posts</a>
+				<hr>
+				<!-- post list -->
 				{% for post in posts %}
 					<div class='post-background'>
 					  <h2><a class="post-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>

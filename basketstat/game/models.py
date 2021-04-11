@@ -26,12 +26,13 @@ class Game(models.Model):
     quarter2_score = models.IntegerField(default=0)
     quarter3_score = models.IntegerField(default=0)
     quarter4_score = models.IntegerField(default=0)
+    total_score = models.IntegerField(default=0)
     # score of the other team
     other_quarter1_score = models.IntegerField(default=0)
     other_quarter2_score = models.IntegerField(default=0)
     other_quarter3_score = models.IntegerField(default=0)
     other_quarter4_score = models.IntegerField(default=0)
-
+    other_total_score = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Creator: {self.creator.username},\

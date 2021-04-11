@@ -1,5 +1,5 @@
 from django import forms
-from .models import Game
+from .models import Game, PlayerRecord
 from player.models import Player
 
 
@@ -20,3 +20,4 @@ class CreateGameForm(forms.ModelForm):
     # in model forms: default query set is .objects.all()
     players = forms.ModelMultipleChoiceField(queryset=Player.objects.all(),
         widget=forms.CheckboxSelectMultiple)
+

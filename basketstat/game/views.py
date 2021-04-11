@@ -1,29 +1,37 @@
-from django.shortcuts import render, redirect
+# HTTP
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-
-# Create your views here.
+from django.shortcuts import render, redirect
+from django.core.exceptions import PermissionDenied
 
 # import models
 from django.forms.models import modelform_factory
 from .models import Game, Comments, PlayerRecord
 from player.models import Player
-# import User
-from django.contrib.auth.models import User
+
 
 # import forms
 from django import forms
-from .forms import CreateGameForm
+from .forms import CreateGameForm   # self defined form
 
-# Login required for Class based views
+# contrib
+from django.contrib.auth.models import User   # import user
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 
 # Generic Views
 from django.views.generic import (ListView, 
                                   DetailView, 
-                                  CreateView,
                                   UpdateView,
                                   DeleteView)
+# Class based views
+from django.views import View
+
+# self-defined class
+from .playerStat import MyPlayerRecord, MyPlayerStat
+
+# CBV tutorial
+# https://simpleisbetterthancomplex.com/series/2017/10/09/a-complete-beginners-guide-to-django-part-6.html
 
 # Many to many relationships
 #https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/
@@ -40,13 +48,16 @@ class GameListView(LoginRequiredMixin, ListView):
 
 
 
+
+
+
 # Detail view turned to function based view
 # display comments and game at the same time in detail view
 # id is a parameter here passed in through the url
 @login_required
 def displayGameAndComment(request, id):
     foundGame = Game.objects.get(id=id)
-    print(foundGame)
+    # print(foundGame)
     
     # if this is a post request
     if request.method == 'POST':
@@ -85,6 +96,7 @@ def displayGameAndComment(request, id):
     print(allPlayerRecords)
 
     relatedComments = Comments.objects.filter(gameId=foundGame)
+    # change this out later since we have new fields called total score
     our_totalscore = foundGame.quarter1_score + \
                      foundGame.quarter2_score + \
                      foundGame.quarter3_score + \
@@ -99,13 +111,12 @@ def displayGameAndComment(request, id):
         'players': players,
         'player_records':allPlayerRecords,
         'comments': relatedComments,
-        'our_totalscore': our_totalscore,
-        'other_totalscore': other_totalscore
-
     }
 
     #print(info)
     return render(request, 'game/game_detail.html', info)
+
+
 
 
 
@@ -210,12 +221,159 @@ def deleteComment(request, comment_id):
     return HttpResponseRedirect(f'/game/list/{cur_gameId}')
 
 
+def recordGame(request, id):
+
+    game = Game.objects.get(id=id)
+    # POST request
+    if request.method == "POST":
+        post_results = request.POST
+        print("Post request: ", post_results)
+        record_id = None
+        found_player_record = None
+
+        for k in post_results:
+            if post_results[k] == "select-player":
+                record_id = int(k)
+                break
+        
+        if record_id:
+            found_player_record = PlayerRecord.objects.get(id=record_id)
+        
+            if "make-2pt" in post_results:
+                found_player_record.twoPointersMade += 1
+                found_player_record.twoPointers += 1
+                game.total_score += 2
+
+
+
+            elif "miss-2pt" in post_results:
+                found_player_record.twoPointers += 1
+
+            
+            elif "make-3pt" in post_results:
+                found_player_record.threePointersMade += 1
+                found_player_record.threePointers += 1
+                game.total_score += 3       
+
+
+            elif "miss-3pt" in post_results:
+                found_player_record.threePointers += 1
+
+            
+            elif "make-ft" in post_results:
+                found_player_record.freethrowMade += 1
+                found_player_record.freethrows += 1
+                game.total_score += 1
+
+
+            elif "miss-ft" in post_results:
+                found_player_record.freethrows += 1
+
+
+            elif "off-reb" in post_results:
+                found_player_record.offensiveRebound += 1
+
+
+            elif "def-reb" in post_results:
+                found_player_record.defensiveRebound += 1
+
+
+            elif "steal" in post_results:
+                found_player_record.steal += 1
+    
+
+            elif "block" in post_results:
+                found_player_record.block += 1
+
+
+            elif "ast" in post_results:
+                found_player_record.assist += 1
+
+
+            elif "to" in post_results:
+                found_player_record.turnover += 1
+
+
+            elif "off-foul" in post_results:
+                found_player_record.offensiveFoul += 1
+            
+
+            elif "def-foul" in post_results:
+                found_player_record.defensiveFoul += 1
+        
+            else:
+                print("Not found")
+
+            found_player_record.save()
+            game.save()
+            print("Update of game and players saved")
+            messages.success(request, f"{found_player_record.playerId.name} stats updated!")
+            
+
+        if "other_team_score2" in post_results:
+                game.other_total_score += 2
+                game.save()
+            
+        elif "other_team_score3" in post_results:
+                game.other_total_score += 3
+                game.save()
+
+    playerRecords = PlayerRecord.objects.filter(gameId=game)
+    if game.creator != request.user:
+        raise PermissionDenied
+    # 403 forbidden
 
 
 
 
+    info = {
+        'player_records': playerRecords,
+        'game': game,
+    }
+    return render(request, 'game/game_record.html', info)
 
 
+
+
+class StatView(LoginRequiredMixin, View):
+
+    def get(self,request,id):
+
+        game = Game.objects.get(id=id)
+        player_records = PlayerRecord.objects.filter(gameId=game)
+        
+        player_stats = []
+        for pr in player_records:
+            pr_object = MyPlayerRecord(
+                pr.playerId.name,
+                pr.playerId.number,
+                pr.numberOfMinutesPlayed,
+                pr.twoPointers,
+                pr.twoPointersMade,
+                pr.threePointers,
+                pr.threePointersMade,
+                pr.freethrows,
+                pr.freethrowMade,
+                pr.offensiveRebound,
+                pr.defensiveRebound,
+                pr.block,
+                pr.steal,
+                pr.assist,
+                pr.turnover,
+                pr.offensiveFoul,
+                pr.defensiveFoul
+                )
+
+            player_stats.append(MyPlayerStat(pr_object).autoGenerate())
+
+        info = {
+            'stats': player_stats
+        }
+
+        return render(request, 'game/game_stat.html', info)    
+
+    def post(self, request):
+        pass
 
 
 
