@@ -20,9 +20,6 @@
 	margin-bottom: 15rem;
 }
 
-/*color layouts*/
-/*https://brandcolors.net/*/
-
 
 #b1{
     color: #B0E0E6;
@@ -36,23 +33,28 @@
 
 .landing-text{
 	position: absolute;
-	top: 60px;
+    background-color: rgba(105,105,105,0.7);
+	padding: 20px;
+    top: 60px;
 	right: 50px;
 }
 
-.landing-text button{
-    margin: 40px auto 0px 10px;
-    background-color: #e7e7e7;
-	font-size: 20px;
-}
 
+/*get started button*/
 .get-started{
-    color: black;
+    margin: 20px auto 0px 20px;
+    background-color: #87CEEB;
+    color: #FFFAF0;
+    font-size: 20px;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 .get-started:hover{
-   color:#74d2e7;
+   color: black;
 }
+
+
+
 
 .landing-text-header{
 	font-family: 'Montserrat', sans-serif;
@@ -60,7 +62,7 @@
 
 
 .landing-text-services{
-	margin-top: 60px;
+	margin-top: 50px;
 	font-weight: bold;
 	font-size:15px;
 }
@@ -181,10 +183,17 @@
 }
 
 
-/********** RWD **********/
+/********** RWD (additional css in max width 575)**********/
 @media (max-width: 575px) {
+    
     #banner h1 {
         font-size: 3.6rem;
+    }
+
+    .landing-text{
+        top: 60px;
+        right: 30px;
+        padding: 5px;
     }
 }
 

@@ -34,7 +34,7 @@
                 </tr>
                 {% for player in players %}
                   <tr>
-                      <td><a href="{%url 'player-delete' player.id%}"><i class="fas fa-trash" style="color:#202020;"></i></a></td>
+                      <td><a href="{%url 'player-delete' player.id%}"><i class="fas fa-trash"></i></a></td>
                       <td>{{player.number}}</td>
                       <td>{{player.name}}</td>
                   </tr>

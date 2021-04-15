@@ -26,17 +26,17 @@ from django.conf import settings
 
 # Import app views
 from usrs import views as usr_views
-# ex:
-# from posts import views as post_views
 
-
-#  To add media root (suitable for development)
-#from django.conf.urls.static import static 
-#from django.conf import settings
+# favicon
+# from django.contrib.staticfiles.storage import staticfiles_storage
+# from django.views.generic.base import RedirectView
 
 
 
 urlpatterns = [
+    #favicon
+    # path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
+
     # admin
     path('admin/', admin.site.urls),
     

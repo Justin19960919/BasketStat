@@ -156,24 +156,30 @@ class PlayerGameRecord:
         except: 
             tov = 0 
         return tov
+
+    
+    def turnToPercentage(self,number):
+        return str(round(number, 3) * 100) + "%"
+
+
     def autoGenerate(self):
         # returns a dict for further pandas df merging
         
         statLine = {
             "Name": self.name,
             "Number": self.number,
-            "PTS": round(self.getPoints(),2),
-            "FGM": round(self.getFieldGoalMade(),2),
-            "FGA": round(self.getFieldGoalAttempts(),2),
-            "FGP":  round(self.getFieldGoalPercentage(),2),
-            "2PP": round(self.getTwoPointPercentage(),2),
-            "3PP": round(self.getThreePointPercentage(),2),
-            "FTP": round(self.getFreeThrowPercentage(),2),
-            "EFF": round(self.getEfficiency(),2),
-            "GMSC":round(self.getGmsc(),2),
-            "EFG":round(self.getEfg(),2),
-            "TS":round(self.getTS(),2),
-            "TOV": round(self.getTOV(),2)
+            "PTS": self.getPoints(),
+            "FGM": self.getFieldGoalMade(),
+            "FGA": self.getFieldGoalAttempts(),
+            "FGP": self.turnToPercentage(self.getFieldGoalPercentage()),
+            "2PP": self.turnToPercentage(self.getTwoPointPercentage()),
+            "3PP": self.turnToPercentage(self.getThreePointPercentage()),
+            "FTP": self.turnToPercentage(self.getFreeThrowPercentage()),
+            "EFF": self.getEfficiency(),
+            "GMSC": round(self.getGmsc(), 2),
+            "EFG": self.turnToPercentage(self.getEfg()),
+            "TS": self.turnToPercentage(self.getTS()),
+            "TOV": self.turnToPercentage(self.getTOV())
         }
 
         return statLine

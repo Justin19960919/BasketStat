@@ -7,11 +7,13 @@
 	<div class="container-fluid p-0">
 		<div class="row no-gutters banner">
 			<div class='col-lg-12'>
+				<!-- landing bg -->
 				<div class="landing-bg" style="background-image: url('static/img/basketball.jpg')">
+					<!-- landing text on right -->
 					<div class="landing-text">
 						<div class='landing-text-header'>
 							<h1>Meet <span id="b1">Basket</span><span id="b2">Stat</span></h1>
-							<h5>Your friend in all things basketball</h5>
+							<h5>Your friend in all things basketball.</h5>
 						</div>
 						<div class="landing-text-services">
 							<ul>
@@ -21,11 +23,12 @@
 								<li>Real Time Score tracking</li>
 							</ul>
 						</div>
-						<button type="button">
-							<a class="nav-link get-started" href="{% url 'about'%}">Get Started</a>
-						</button>
+
+						<!-- get started buttton -->
+						<a class="btn btn-lg get-started" href="{% url 'register'%}">Get Started</a>
 					</div>
 				</div>
+				<!--  -->
 			</div>
 		</div>
 		
@@ -65,7 +68,7 @@
 					<div data-aos="fade-right" data-aos-duration="1000" data-aos-once="true" class="col-md-6">
 						<h2 class="font-weight-bold">Blog Posts</h2>
 						<p class="my-4"  style="font-size: 25px;"> Share feelings and discuss practices or games 
-						<br> through blog posts.</p>
+						through blog posts.</p>
 						<a href="{% url 'post-list'%}" class="btn my-4 font-weight-bold atlas-cta cta-blue">Learn More</a>
 					</div>
 					<div data-aos="fade-left" data-aos-duration="1000" data-aos-once="true" class="col-md-6 align-self-center">
