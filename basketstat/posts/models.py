@@ -10,14 +10,14 @@ class Post(models.Model):
 	# The account that issued the post
 	account = models.ForeignKey(User, on_delete = models.CASCADE)
 
-	author = models.CharField(default="Author",
+	author = models.CharField(default="",
 		max_length = 10)
 	
 	date = models.DateTimeField(default = timezone.now)
 	
-	title = models.CharField(default = "Title", max_length = 20)
+	title = models.CharField(default = "", max_length = 20)
 
-	content = models.TextField(default = "Content",
+	content = models.TextField(default = "",
 		max_length = 1000)
 
 

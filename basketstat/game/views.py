@@ -210,6 +210,7 @@ class GameDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
+@login_required
 def deleteComment(request, comment_id):
     comment = Comments.objects.get(id=comment_id)
     cur_gameId = comment.gameId.id
@@ -218,6 +219,8 @@ def deleteComment(request, comment_id):
     return HttpResponseRedirect(f'/game/list/{cur_gameId}')
 
 
+
+@login_required
 def recordGame(request, id):
 
     game = Game.objects.get(id=id)
@@ -229,15 +232,25 @@ def recordGame(request, id):
         print(post_results)     # sanity check
         quarter = None
 
-        if 'quarter' in post_results:
+        if 'select-player' not in post_results:
+            msg = "Need to select player"
+            messages.warning(request, msg)
+
+        if 'quarter' not in post_results:
+            msg = "Need to select quarter"
+            messages.warning(request, msg)
+
+
+        if 'quarter' in post_results and 'select-player' in post_results:
+            
             quarter = post_results.get('quarter')
+            player_record_id = post_results.get('select-player')
+            
+            print('Quarter: ', quarter)
+            print('Player record id: ', player_record_id)
 
-
-        if 'select-player' in post_results:
-            player_record_id = int(post_results.get('select-player'))
-            print("Player record id: ", player_record_id)
             found_player_record = PlayerRecord.objects.get(id=player_record_id)
-            print(found_player_record)
+            print("Found player record: ", found_player_record)
             
             name = found_player_record.playerId.name
             number= found_player_record.playerId.number
@@ -336,18 +349,16 @@ def recordGame(request, id):
             elif "def-foul" in post_results:
                 found_player_record.defensiveFoul += 1
                 msg = f"#{number}|{name} commits DF"
-            else:
-                print("Not found")
-                msg = "--"
+
 
             found_player_record.save()
             game.save()
-            print("Update of game and players saved")
             messages.success(request, msg)
             
-            # save to logging
+            # save to game logger
             print(f"Writing to logger.. {msg}\n")
             writeGamelog(path, msg)
+
 
         if "other_team_score1" in post_results:
             game.other_total_score += 1
@@ -360,8 +371,10 @@ def recordGame(request, id):
                     game.other_quarter3_score += 1
                 elif quarter == "q4":
                     game.other_quarter4_score += 1
+            msg = "Opponent scores 1"
+            writeGamelog(path, msg)
             game.save()
-
+            messages.info(request, msg)
 
         if "other_team_score2" in post_results:
             game.other_total_score += 2
@@ -374,7 +387,10 @@ def recordGame(request, id):
                     game.other_quarter3_score += 2
                 elif quarter == "q4":
                     game.other_quarter4_score += 2
-            game.save()  
+            msg = "Opponent scores 2"
+            writeGamelog(path, msg)
+            game.save()
+            messages.info(request, msg) 
         
         if "other_team_score3" in post_results:
             game.other_total_score += 3
@@ -387,9 +403,13 @@ def recordGame(request, id):
                     game.other_quarter3_score += 3
                 elif quarter == "q4":
                     game.other_quarter4_score += 3
+            msg = "Opponent scores 3"
+            writeGamelog(path, msg)
             game.save()
+            messages.info(request, msg)
 
 
+    # Drop down to get request
     playerRecords = PlayerRecord.objects.filter(gameId=game)
     if game.creator != request.user:
         raise PermissionDenied

@@ -25,7 +25,7 @@
 
 
 #b1{
-	color:#008B8B;
+    color: #B0E0E6;
 	font-size: 4rem;
 }
 
@@ -42,7 +42,6 @@
 
 .landing-text button{
     margin: 40px auto 0px 10px;
-    /*background-color: #48a9c5;*/
     background-color: #e7e7e7;
 	font-size: 20px;
 }
@@ -136,12 +135,12 @@
 }
 
 #feature-first {
-    background: linear-gradient(168deg, #ffffff 55%, #008B8B  0);
+    background: linear-gradient(168deg, #ffffff 55%, #B0E0E6  0);
 }
     
     /*#74d2e7*/
 #feature-last {
-    background: #008B8B;
+    background: #B0E0E6;
 }
 
 
@@ -149,7 +148,7 @@
 /********** contact **********/
 #contact {
     background-size: cover;
-    background-color: #008B8B;
+    background-color: #202020;
 }
 
 #contact ul li {
