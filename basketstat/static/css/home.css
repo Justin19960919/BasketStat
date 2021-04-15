@@ -25,7 +25,7 @@
 
 
 #b1{
-	color:#74d2e7;
+	color:#008B8B;
 	font-size: 4rem;
 }
 
@@ -136,11 +136,12 @@
 }
 
 #feature-first {
-    background: linear-gradient(168deg, #ffffff 55%, #74d2e7 0);
+    background: linear-gradient(168deg, #ffffff 55%, #008B8B  0);
 }
-
+    
+    /*#74d2e7*/
 #feature-last {
-    background: #74d2e7;
+    background: #008B8B;
 }
 
 
@@ -148,7 +149,7 @@
 /********** contact **********/
 #contact {
     background-size: cover;
-    background-color: #050f2c;
+    background-color: #008B8B;
 }
 
 #contact ul li {

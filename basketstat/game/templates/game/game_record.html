@@ -2,122 +2,184 @@
 {% load static %}
 
 {% block content %}
-    
-<div class="container-fluid main-body">
-	
-	<div class = "row game-scores">
-		<div class="card">
-		  <div class="game-container">
-		    <h4><b>Home Team</b></h4>
-		    <h1>{{game.total_score}}</h1>
-		  </div>
+	<!-- load custom css  -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/record.css' %}">
+	<div class="container-fluid main-body">
+		
+		<div class = "row game-scores">
+			<div class="card">
+			  <div class="game-container">
+			    <h4><b>Home Team</b></h4>
+			    <h1>{{game.total_score}}</h1>
+			  </div>
+			</div>
+			<div class="card">
+			  <div class="game-container">
+			    <h4><b>Opponent</b></h4>
+			    <h1>{{game.other_total_score}}</h1>
+			  </div>
+			</div>
 		</div>
-		<div class="card">
-		  <div class="game-container">
-		    <h4><b>Opponent</b></h4>
-		    <h1>{{game.other_total_score}}</h1>
-		  </div>
-		</div>
+		
+
+	  	<table class="table table-hover table-bordered" style="margin: 30px 10px;">
+		    <thead class="thead-dark">
+		      <tr>
+		        <th scope="col">NUMBER</th>
+		        <th scope="col">NAME</th>
+		        <th scope="col">MINS</th>
+		        <th scope="col">2PT Made</th>
+		        <th scope="col">2PT</th>
+		        <th scope="col">3PT Made</th>
+		        <th scope="col">3PT</th>
+		        <th scope="col">FT</th>
+		        <th scope="col">FT Made</th>
+		        <th scope="col">OREB</th>
+		        <th scope="col">DREB</th>
+		        <th scope="col">BLK</th>
+		        <th scope="col">STL</th>
+		        <th scope="col">AST</th>
+		        <th scope="col">TO</th>
+		        <th scope="col">O-FOUL</th>
+	         	<th scope="col">D-FOUL</th>
+		      </tr>
+		    </thead>
+		    
+		    <tbody>
+		      {% for pr in player_records %}
+		      <tr>
+				<td>{{pr.playerId.number}}</td>
+				<td>{{pr.playerId.name}}</td>
+				<td>{{pr.numberOfMinutesPlayed}}</td>
+				<td>{{pr.twoPointersMade}}</td>
+				<td>{{pr.twoPointers}}</td>
+				<td>{{pr.threePointersMade}}</td>
+				<td>{{pr.threePointers}}</td>
+				<td>{{pr.freethrows}}</td>
+				<td>{{pr.freethrowMade}}</td>
+				<td>{{pr.offensiveRebound}}</td>
+				<td>{{pr.defensiveRebound}}</td>
+				<td>{{pr.block}}</td>
+				<td>{{pr.steal}}</td>
+				<td>{{pr.assist}}</td>
+				<td>{{pr.turnover}}</td>
+				<td>{{pr.offensiveFoul}}</td>
+				<td>{{pr.defensiveFoul}}</td>
+		      </tr>
+				{% endfor %}
+		    </tbody>
+	  	</table>
+
+	    <!-- messages -->
+	    {% if messages %}
+	        {% for message in messages %}
+	          <!-- render according to the message tags -->
+	          <!-- alert alert-success ; alert alert-warning..etc -->
+	          <div class="alert alert-{{ message.tags }}">
+	            {{ message }}
+	          </div>
+	        {% endfor %}
+	    {% endif %}
+
+		<form method="post" action="">
+			{% csrf_token %}
+	        <div id="quarter">
+	        	{% if quarter == "q1" %}
+	            <label><input type="checkbox" name="quarter" value="q1" checked><span>Q1</span></label>
+	        	{% else %}
+	            <label><input type="checkbox" name="quarter" value="q1"><span>Q1</span></label>
+	        	{% endif %}
+	        	
+	        	{% if quarter == "q2" %}
+	            <label><input type="checkbox" name="quarter" value="q2" checked><span>Q2</span></label>
+	        	{% else %}
+	            <label><input type="checkbox" name="quarter" value="q2"><span>Q2</span></label>
+	        	{% endif %}
+	            
+	        	{% if quarter == "q3" %}
+	            <label><input type="checkbox" name="quarter" value="q3" checked><span>Q3</span></label>
+	        	{% else %}
+	            <label><input type="checkbox" name="quarter" value="q3"><span>Q3</span></label>
+	        	{% endif %}
+
+	        	{% if quarter == "q4" %}
+	            <label><input type="checkbox" name="quarter" value="q4" checked><span>Q4</span></label>
+	        	{% else %}
+	            <label><input type="checkbox" name="quarter" value="q4"><span>Q4</span></label>
+	        	{% endif %}
+<!-- 	            <label><input type="checkbox" name="quarter" value="q2"><span>Q2</span></label>
+	            <label><input type="checkbox" name="quarter" value="q3"><span>Q3</span></label>
+	            <label><input type="checkbox" name="quarter" value="q4"><span>Q4</span></label> -->
+	        </div>
+	        
+	        <div id="players">
+	        	{% for pr in player_records %}
+	            	<label><input type="checkbox" name="select-player" value="{{pr.id}}"><span>#{{pr.playerId.number}} {{pr.playerId.name}}</span></label>
+				{% endfor %}
+	        </div>
+	        <div class="container-fluid game-buttons">
+	            
+	            <div class="col game-score-buttons">
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="make-2pt">Make 2PT</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="miss-2pt">Miss 2PT</button>
+	                </div>
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="make-3pt">Make 3PT</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="miss-3pt">Miss 3PT</button>
+	                </div>
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="make-ft">Make FT</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="miss-ft">MISS FT</button>
+	                </div>
+	            </div>
+	            <div class="col game-help-buttons">
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="off-reb">OFF REB</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="def-reb">DEF REB</button>
+	                </div>
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="steal">Steal</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="block">Block</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="ast">AST</button>   
+	                </div>
+	            </div>
+	            <div class="col game-error-buttons">
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="to">TO</button>
+	                </div>
+	                <div>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="off-foul">OFF Foul</button>
+	                    <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="def-foul">DEF FOUL</button>   
+	                </div>
+	            </div>
+	            <div class="col game-opponent-buttons" style="display:flex; flex-direction: column;">
+	                <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="other_team_score1">Opponent + 1</button>
+	                <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="other_team_score2">Opponent + 2</button>
+	                <button class="btn btn-dark btn-md mt-1 mb-1" type="submit" name="other_team_score3">Opponent + 3</button>   
+	            </div>
+	        </div>
+	    </form>
+
 	</div>
-	
-
-  	<table class="table table-hover table-bordered" style="margin: 30px 10px;">
-	    <thead class="thead-dark">
-	      <tr>
-	        <th scope="col">NUMBER</th>
-	        <th scope="col">NAME</th>
-	        <th scope="col">MINS</th>
-	        <th scope="col">2PT Made</th>
-	        <th scope="col">2PT</th>
-	        <th scope="col">3PT Made</th>
-	        <th scope="col">3PT</th>
-	        <th scope="col">FT</th>
-	        <th scope="col">FT Made</th>
-	        <th scope="col">OREB</th>
-	        <th scope="col">DREB</th>
-	        <th scope="col">BLK</th>
-	        <th scope="col">STL</th>
-	        <th scope="col">AST</th>
-	        <th scope="col">TO</th>
-	        <th scope="col">O-FOUL</th>
-         	<th scope="col">D-FOUL</th>
-	      </tr>
-	    </thead>
-	    
-	    <tbody>
-	      {% for pr in player_records %}
-	      <tr>
-			<td>{{pr.playerId.number}}</td>
-			<td>{{pr.playerId.name}}</td>
-			<td>{{pr.numberOfMinutesPlayed}}</td>
-			<td>{{pr.twoPointersMade}}</td>
-			<td>{{pr.twoPointers}}</td>
-			<td>{{pr.threePointersMade}}</td>
-			<td>{{pr.threePointers}}</td>
-			<td>{{pr.freethrows}}</td>
-			<td>{{pr.freethrowMade}}</td>
-			<td>{{pr.offensiveRebound}}</td>
-			<td>{{pr.defensiveRebound}}</td>
-			<td>{{pr.block}}</td>
-			<td>{{pr.steal}}</td>
-			<td>{{pr.assist}}</td>
-			<td>{{pr.turnover}}</td>
-			<td>{{pr.offensiveFoul}}</td>
-			<td>{{pr.defensiveFoul}}</td>
-	      </tr>
-			{% endfor %}
-	    </tbody>
-  	</table>
-
-    <!-- messages -->
-    {% if messages %}
-        {% for message in messages %}
-          <!-- render according to the message tags -->
-          <!-- alert alert-success ; alert alert-warning..etc -->
-          <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-          </div>
-        {% endfor %}
-    {% endif %}
-
-
-	<form method="post" action="">
-
-		{% csrf_token %}
-
-		<div style="margin-left: 20px;">
-			{% for pr in player_records %}
-				<div class="row">
-				<input type="checkbox" value="select-player" name="{{pr.id}}"><label style="margin-left: 10px; text-align: center;">{{pr.playerId.name}}</label>
-				</div>
-			{% endfor %}
-		</div>
-	 	
-	 	<br>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="make-2pt">Make 2PT</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="miss-2pt">Miss 2PT</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="make-3pt">Make 3PT</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="miss-3pt">Miss 3PT</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="make-ft">Make FT</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="miss-ft">MISS FT</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="off-reb">OFF REB</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="def-reb">DEF REB</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="steal">Steal</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="block">Block</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="ast">AST</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="to">TO</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="off-foul">OFF Foul</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="def-foul">DEF FOUL</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="other_team_score2">Opponent + 2</button>
-			<button class="btn btn-dark btn-sm mt-1 mb-1" type="submit" name="other_team_score3">Opponent + 3</button>
-	</form>
-</div>
 {% endblock %}
 
 
+{% block javascript %}
+<script type="text/javascript">
+	console.log(document.getElementById("quarter")); 
+	// mySel.addEventListener("change",function() { 
+	//   localStorage.setItem("selValue",this.value); // save it 
+	// }); 
+	// let val = localStorage.getItem("selValue"); 
+	// if (val) mySel.value=val; // set the dropdown 
+	// // trigger the change in case there are other events on the select 
+	// mySel.onchange();  
+</script>>
 
 
 
+{% endblock %}
 
 
 

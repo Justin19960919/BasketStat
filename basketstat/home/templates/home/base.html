@@ -42,18 +42,27 @@
                 <!-- Posts -->
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Functions
+                    Features
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                     <li><a class="dropdown-item" href="{% url 'post-list'%}">Posts</a></li>
                     <li><a class="dropdown-item" href="{% url 'game-list'%}">Games</a></li>
                     <li><a class="dropdown-item" href="{% url 'player-list'%}">Players</a></li>
-                    <!-- <li><a class="dropdown-item" href="{% url 'post-create' %}">Create Post</a></li> -->
+
                   </ul>
                 </li>
-                <!--  -->
-                <!-- <a class="nav-link" href="{% url 'post-list'%}">Posts</a> -->
-                <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+                <!-- Profile -->
+                <div class="dropdown">
+                  <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle account-homepage" src={{user.profile.image.url}}>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item" href="{% url 'profile'%}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
+                  </ul>
+                </div>
+
+
               {% else %}
                 <a class="nav-link" href="{% url 'login'%}">Login</a>
                 <a class="nav-link" href="{% url 'register'%}">Register</a>
@@ -82,7 +91,7 @@
       <script  src="{% static 'js/main.js' %}"></script>
       {% block javascript %}{% endblock %}
       <!-- page specific js or extra js goes into block java script -->
-      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
       <!-- Popper js -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
       <!-- Boostrap js -->

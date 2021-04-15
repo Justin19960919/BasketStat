@@ -27,6 +27,7 @@ class Game(models.Model):
     quarter3_score = models.IntegerField(default=0)
     quarter4_score = models.IntegerField(default=0)
     total_score = models.IntegerField(default=0)
+    
     # score of the other team
     other_quarter1_score = models.IntegerField(default=0)
     other_quarter2_score = models.IntegerField(default=0)
@@ -111,10 +112,13 @@ class PlayerRecord(models.Model):
     defensiveFoul = models.IntegerField(default = 0)
 
     numberOfMinutesPlayed = models.IntegerField(default = 0)
-
+    # checkin = models.DateTimeField(default = timezone.now)
+    # checkout = models.DateTimeField(default = timezone.now)
 
 
     def __str__(self):
         return f"playerId: {self.playerId.id}; gameId: {self.gameId.id},\
         twoPointers: {self.twoPointers}... etc"
+
+
 

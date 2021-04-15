@@ -102,7 +102,8 @@ $.ajax({
 
 '''
 
-
+def test(request):
+    return render(request, "my_app/test.html") 
 
 
 

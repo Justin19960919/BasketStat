@@ -5,20 +5,17 @@
   
 <!-- renders the PlayerForm (modelForm) -->
 <div class="container-fluid p-0 main-body">
-  <div class="row no-gutters">
-    <div class='col-lg-12'>
 
-        <div class="container-fluid">
+
+        <div>
             <form id="player-form" method="POST">
-              <div class="row">
-                  {% csrf_token %}
-                  {{ form|crispy }}
-              </div>
+                {% csrf_token %}
+                {{ form|crispy }}
               <input type="submit" value="submit">
             </form>
         </div>
 
-        <div class="container-fluid">
+        <div class="container">
             {% if messages %}
               {% for message in messages %}
                 <!-- render according to the message tags -->
@@ -28,27 +25,23 @@
                 </div>
               {% endfor %}
             {% endif %}
-            <table class="table table-sm" id="player-table">
-                <thead>
-                    <tr>
-                        <th>Action</th>
-                        <th>Number</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  {% for player in players %}
-                    <tr>
-                        <td><a href="{%url 'player-delete' player.id%}">X</a></td>
-                        <td>{{player.number}}</td>
-                        <td>{{player.name}}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
+
+            <table class="player-table">
+                <tr>
+                    <th></th>
+                    <th>Number</th>
+                    <th>Name</th>
+                </tr>
+                {% for player in players %}
+                  <tr>
+                      <td><a href="{%url 'player-delete' player.id%}"><i class="fas fa-trash" style="color:#202020;"></i></a></td>
+                      <td>{{player.number}}</td>
+                      <td>{{player.name}}</td>
+                  </tr>
+                {% endfor %}
             </table>
         </div>
-    </div>
-  </div>
+
 </div>
 
 

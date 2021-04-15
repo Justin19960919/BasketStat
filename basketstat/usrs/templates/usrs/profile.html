@@ -1,0 +1,42 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+
+<!-- only shows if user is logged in -->
+{% block content %}
+<div class="container-fluid main-body">
+    <div class="content-section">
+      
+      {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+          </div>
+          {% endfor %}
+      {% endif %}
+      <!-- user info -->
+      <div class="media">
+        <!-- render the image uploaded -->
+        <!-- still need to add media route for this to work
+        , modify in urls.py -->
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+      <!-- add attribute enctype: for mutli forms -->
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Profile Info</legend>
+              {{ u_form|crispy }}
+              {{ p_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" type="submit">Update</button>
+          </div>
+      </form>
+    </div>
+</div>    
+{% endblock content %}

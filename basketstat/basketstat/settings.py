@@ -142,13 +142,13 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # for deployment, check out the upper two links
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-
+# Dir to store uploaded files
 # Set media root (Directory that uploaded files will be saved)
 # Pu the profile_pics folder in the media folder
 # Not saved in database for performance
 # os.path.join will ensure the path is joined correctly whatever os
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    #BASE_DIR is specified above
-#MEDIA_URL = '/media/'   # public url of the directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # upload dir
+MEDIA_URL = '/media/'   # public url of the directory
 
 
 

@@ -21,7 +21,7 @@ def player_list(request):
             # returns a boolean
             if Player.objects.filter(name=addform.name, number=addform.number).exists():
                 # put out message
-                messages.info(request, f"Found a duplicate name and number!")
+                messages.warning(request, f"Found a duplicate name and number!")
                 return redirect('player-list')
             # else
             addform.save()

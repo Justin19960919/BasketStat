@@ -1,4 +1,4 @@
-class MyPlayerRecord:
+class PlayerGameRecord:
     def __init__(self, name, number, numberOfMinutesPlayed= 0, twoPointers = 0, twoPointersMade = 0, threePointers= 0, threePointersMade= 0,
         freethrows= 0, freethrowsMade= 0, offensiveRebound= 0, defensiveRebound= 0, block= 0, steal= 0, assist= 0,
         turnover= 0, offensiveFoul= 0, defensiveFoul= 0):
@@ -33,7 +33,9 @@ class MyPlayerRecord:
 
 
     def __str__(self):
-        return "NOM: {}, 2P: {}, 2PMade:{}, 3P:{}, 3PMade:{}, FT:{}, FTMade:{}, OR:{}, DR:{}, BLK:{}, STL:{}, AST:{}, TO:{}, OF:{}, DF:{}".format(
+        return "Name: {}, Number: {},NOM: {}, 2P: {}, 2PMade:{}, 3P:{}, 3PMade:{}, FT:{}, FTMade:{}, OR:{}, DR:{}, BLK:{}, STL:{}, AST:{}, TO:{}, OF:{}, DF:{}".format(
+         self.name,
+         self.number,
          self.numberOfMinutesPlayed,
          self.twoPointers,
          self.twoPointersMade,
@@ -51,25 +53,21 @@ class MyPlayerRecord:
          self.defensiveFoul)
 
 
-class MyPlayerStat:
-
-    def __init__(self,myPlayerRecord):
-        # receives a Player Object
-        self.playerRecord = myPlayerRecord
-
 
     # Basic Stats
     # Points
     def getPoints(self):
-        return self.playerRecord.twoPointersMade * 2 + self.playerRecord.threePointersMade * 3
+        return self.twoPointersMade * 2 + self.threePointersMade * 3
     
 
     # Field Goals
     def getFieldGoalMade(self):
-        return self.playerRecord.twoPointersMade + self.playerRecord.threePointersMade
+        return self.twoPointersMade + self.threePointersMade
     
+
     def getFieldGoalAttempts(self):
-        return self.playerRecord.twoPointers + self.playerRecord.threePointers
+        return self.twoPointers + self.threePointers
+
 
     def getFieldGoalPercentage(self):
         # round to 2 decimals
@@ -83,32 +81,32 @@ class MyPlayerStat:
 
 
     def getTwoPointPercentage(self):
-        if self.playerRecord.twoPointers == 0:
+        if self.twoPointers == 0:
             return 0
         else:
-            return round(self.playerRecord.twoPointersMade / self.playerRecord.twoPointers,2)
+            return round(self.twoPointersMade / self.twoPointers,2)
 
 
 
     # Three point stats
     def getThreePointPercentage(self):
         # round to 2 decimals
-        if self.playerRecord.threePointers == 0:
+        if self.threePointers == 0:
             return 0
         else:
-            return round(self.playerRecord.threePointersMade / self.playerRecord.threePointers,2)
+            return round(self.threePointersMade / self.threePointers,2)
     
     def getFreeThrowPercentage(self):
         # round to 2 decimals
-        if self.playerRecord.freeThrows == 0:
+        if self.freeThrows == 0:
             return 0
         else:
-            return round(self.playerRecord.freeThrowsMade / self.playerRecord.freeThrows,2)
+            return round(self.freeThrowsMade / self.freeThrows,2)
 
 
     # Total Rebounds
     def getTotalRebounds(self):
-        return self.playerRecord.offensiveRebound + self.playerRecord.defensiveRebound
+        return self.offensiveRebound + self.defensiveRebound
 
 
 
@@ -117,9 +115,9 @@ class MyPlayerStat:
     # EFF (Efficiency)
     def getEfficiency(self):
 
-        eff = (self.getPoints()+ self.getTotalRebounds()+ self.playerRecord.assist + \
-            self.playerRecord.steal + self.playerRecord.block) - (self.getFieldGoalAttempts()- \
-                self.getFieldGoalMade()) - (self.playerRecord.freeThrows - self.playerRecord.freeThrowsMade) - self.playerRecord.turnover
+        eff = (self.getPoints()+ self.getTotalRebounds()+ self.assist + \
+            self.steal + self.block) - (self.getFieldGoalAttempts()- \
+                self.getFieldGoalMade()) - (self.freeThrows - self.freeThrowsMade) - self.turnover
         
         return eff
 
@@ -127,7 +125,7 @@ class MyPlayerStat:
     # GmSc (Game Score)
     def getGmsc(self):
 
-        gmsc = (self.getPoints() + 0.7*self.playerRecord.offensiveRebound + 0.3*self.playerRecord.defensiveRebound + 0.7*self.playerRecord.assist + self.playerRecord.steal + 0.7*self.playerRecord.block) + 0.4* self.getFieldGoalMade() - 0.7* self.getFieldGoalAttempts() - 0.4*(self.playerRecord.freeThrows - self.playerRecord.freeThrowsMade) - self.playerRecord.turnover - 0.4 * (self.playerRecord.offensiveFoul + self.playerRecord.defensiveFoul)
+        gmsc = (self.getPoints() + 0.7*self.offensiveRebound + 0.3*self.defensiveRebound + 0.7*self.assist + self.steal + 0.7*self.block) + 0.4* self.getFieldGoalMade() - 0.7* self.getFieldGoalAttempts() - 0.4*(self.freeThrows - self.freeThrowsMade) - self.turnover - 0.4 * (self.offensiveFoul + self.defensiveFoul)
 
         return gmsc
 
@@ -136,7 +134,7 @@ class MyPlayerStat:
     def getEfg(self):
         # eFG% = (FGM + 0.5*(3PM))/FGA
         try:
-            efg = (self.getFieldGoalMade()+ 0.5*self.playerRecord.threePointersMade) / self.getFieldGoalAttempts()
+            efg = (self.getFieldGoalMade()+ 0.5*self.threePointersMade) / self.getFieldGoalAttempts()
         except:
             efg = 0
         return efg
@@ -146,21 +144,24 @@ class MyPlayerStat:
     def getTS(self):
         # 得分/ (2* (FGA + 0.44 * FTA))
         try:
-            TS = self.getPoints() / (2*(self.getFieldGoalAttempts()+0.44*self.playerRecord.freeThrows))
+            TS = self.getPoints() / (2*(self.getFieldGoalAttempts()+0.44*self.freeThrows))
         except:
             TS = 0
         return TS
 
-
-    # Further advanced stats need research....
-
-
+    # TurnOver percentage
+    def getTOV(self):
+        try:
+            tov = self.turnover / (self.getFieldGoalAttempts() + 0.44* self.freeThrows + self.turnover)
+        except: 
+            tov = 0 
+        return tov
     def autoGenerate(self):
         # returns a dict for further pandas df merging
         
         statLine = {
-            "Name": self.playerRecord.name,
-            "Number": self.playerRecord.number,
+            "Name": self.name,
+            "Number": self.number,
             "PTS": round(self.getPoints(),2),
             "FGM": round(self.getFieldGoalMade(),2),
             "FGA": round(self.getFieldGoalAttempts(),2),
@@ -171,10 +172,13 @@ class MyPlayerStat:
             "EFF": round(self.getEfficiency(),2),
             "GMSC":round(self.getGmsc(),2),
             "EFG":round(self.getEfg(),2),
-            "TS":round(self.getTS(),2)
+            "TS":round(self.getTS(),2),
+            "TOV": round(self.getTOV(),2)
         }
 
         return statLine
+
+
 
 
 

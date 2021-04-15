@@ -27,8 +27,20 @@ from django.views.generic import (ListView,
 # Class based views
 from django.views import View
 
-# self-defined class
-from .playerStat import MyPlayerRecord, MyPlayerStat
+# My classes
+from .playerStat import PlayerGameRecord
+from .team import TeamGameRecord
+
+# Other python packages
+import datetime
+
+# Logging
+def writeGamelog(path, msg):
+    with open(path, 'a') as file:
+        msg_time = datetime.datetime.now()
+        msg_time = msg_time.strftime("%m/%d/%Y, %H:%M:%S")
+        file.write(f"[{msg_time}]   {msg}\n")
+
 
 # CBV tutorial
 # https://simpleisbetterthancomplex.com/series/2017/10/09/a-complete-beginners-guide-to-django-part-6.html
@@ -44,10 +56,6 @@ class GameListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         return Game.objects.filter(creator=user).order_by('-dateOfGame')
-
-
-
-
 
 
 
@@ -96,15 +104,6 @@ def displayGameAndComment(request, id):
     print(allPlayerRecords)
 
     relatedComments = Comments.objects.filter(gameId=foundGame)
-    # change this out later since we have new fields called total score
-    our_totalscore = foundGame.quarter1_score + \
-                     foundGame.quarter2_score + \
-                     foundGame.quarter3_score + \
-                     foundGame.quarter4_score
-    other_totalscore = foundGame.other_quarter1_score + \
-                     foundGame.other_quarter2_score + \
-                     foundGame.other_quarter3_score + \
-                     foundGame.other_quarter4_score
 
     info = {
         'game': foundGame,
@@ -115,8 +114,6 @@ def displayGameAndComment(request, id):
 
     #print(info)
     return render(request, 'game/game_detail.html', info)
-
-
 
 
 
@@ -224,114 +221,188 @@ def deleteComment(request, comment_id):
 def recordGame(request, id):
 
     game = Game.objects.get(id=id)
+    path = f"game/logs/game_{id}_log.txt"
+    quarter = None
     # POST request
     if request.method == "POST":
         post_results = request.POST
-        print("Post request: ", post_results)
-        record_id = None
-        found_player_record = None
+        print(post_results)     # sanity check
+        quarter = None
 
-        for k in post_results:
-            if post_results[k] == "select-player":
-                record_id = int(k)
-                break
-        
-        if record_id:
-            found_player_record = PlayerRecord.objects.get(id=record_id)
-        
+        if 'quarter' in post_results:
+            quarter = post_results.get('quarter')
+
+
+        if 'select-player' in post_results:
+            player_record_id = int(post_results.get('select-player'))
+            print("Player record id: ", player_record_id)
+            found_player_record = PlayerRecord.objects.get(id=player_record_id)
+            print(found_player_record)
+            
+            name = found_player_record.playerId.name
+            number= found_player_record.playerId.number
+
             if "make-2pt" in post_results:
                 found_player_record.twoPointersMade += 1
                 found_player_record.twoPointers += 1
                 game.total_score += 2
+                msg = f"#{number}|{name} make 2"
 
+                if quarter:
+                    if quarter == "q1":
+                        game.quarter1_score += 2
+                    elif quarter == "q2":
+                        game.quarter2_score += 2
+                    elif quarter == "q3":
+                        game.quarter3_score += 2
+                    elif quarter == "q4":
+                        game.quarter4_score += 2
 
 
             elif "miss-2pt" in post_results:
                 found_player_record.twoPointers += 1
-
+                msg = f"#{number}|{name} miss 2"
             
             elif "make-3pt" in post_results:
                 found_player_record.threePointersMade += 1
                 found_player_record.threePointers += 1
                 game.total_score += 3       
-
+                msg = f"#{number}|{name} make 3"
+                if quarter:
+                    if quarter == "q1":
+                        game.quarter1_score += 3
+                    elif quarter == "q2":
+                        game.quarter2_score += 3
+                    elif quarter == "q3":
+                        game.quarter3_score += 3
+                    elif quarter == "q4":
+                        game.quarter4_score += 3
 
             elif "miss-3pt" in post_results:
                 found_player_record.threePointers += 1
+                msg = f"#{number}|{name} miss 3"
 
-            
+ 
             elif "make-ft" in post_results:
                 found_player_record.freethrowMade += 1
                 found_player_record.freethrows += 1
                 game.total_score += 1
+                msg = f"#{number}|{name} make ft"
+
+                if quarter:
+                    if quarter == "q1":
+                        game.quarter1_score += 1
+                    elif quarter == "q2":
+                        game.quarter2_score += 1
+                    elif quarter == "q3":
+                        game.quarter3_score += 1
+                    elif quarter == "q4":
+                        game.quarter4_score += 1
 
 
             elif "miss-ft" in post_results:
                 found_player_record.freethrows += 1
-
+                msg = f"#{number}|{name} miss ft"
 
             elif "off-reb" in post_results:
                 found_player_record.offensiveRebound += 1
+                msg = f"#{number}|{name} get OR"
 
 
             elif "def-reb" in post_results:
                 found_player_record.defensiveRebound += 1
-
+                msg = f"#{number}|{name} get DR"
 
             elif "steal" in post_results:
                 found_player_record.steal += 1
-    
+                msg = f"#{number}|{name} get STL"
 
             elif "block" in post_results:
                 found_player_record.block += 1
-
+                msg = f"#{number}|{name} get BLK"
 
             elif "ast" in post_results:
                 found_player_record.assist += 1
-
+                msg = f"#{number}|{name} get AST"
 
             elif "to" in post_results:
                 found_player_record.turnover += 1
-
+                msg = f"#{number}|{name} has TO"
 
             elif "off-foul" in post_results:
                 found_player_record.offensiveFoul += 1
-            
+                msg = f"#{number}|{name} commits OF"
 
             elif "def-foul" in post_results:
                 found_player_record.defensiveFoul += 1
-        
+                msg = f"#{number}|{name} commits DF"
             else:
                 print("Not found")
+                msg = "--"
 
             found_player_record.save()
             game.save()
             print("Update of game and players saved")
-            messages.success(request, f"{found_player_record.playerId.name} stats updated!")
+            messages.success(request, msg)
             
+            # save to logging
+            print(f"Writing to logger.. {msg}\n")
+            writeGamelog(path, msg)
+
+        if "other_team_score1" in post_results:
+            game.other_total_score += 1
+            if quarter:
+                if quarter == "q1":
+                    game.other_quarter1_score += 1
+                elif quarter == "q2":
+                    game.other_quarter2_score += 1
+                elif quarter == "q3":
+                    game.other_quarter3_score += 1
+                elif quarter == "q4":
+                    game.other_quarter4_score += 1
+            game.save()
+
 
         if "other_team_score2" in post_results:
-                game.other_total_score += 2
-                game.save()
-            
-        elif "other_team_score3" in post_results:
-                game.other_total_score += 3
-                game.save()
+            game.other_total_score += 2
+            if quarter:
+                if quarter == "q1":
+                    game.other_quarter1_score += 2
+                elif quarter == "q2":
+                    game.other_quarter2_score += 2
+                elif quarter == "q3":
+                    game.other_quarter3_score += 2
+                elif quarter == "q4":
+                    game.other_quarter4_score += 2
+            game.save()  
+        
+        if "other_team_score3" in post_results:
+            game.other_total_score += 3
+            if quarter:
+                if quarter == "q1":
+                    game.other_quarter1_score += 3
+                elif quarter == "q2":
+                    game.other_quarter2_score += 3
+                elif quarter == "q3":
+                    game.other_quarter3_score += 3
+                elif quarter == "q4":
+                    game.other_quarter4_score += 3
+            game.save()
+
 
     playerRecords = PlayerRecord.objects.filter(gameId=game)
     if game.creator != request.user:
         raise PermissionDenied
-    # 403 forbidden
-
-
+        # 403 forbidden
 
 
     info = {
         'player_records': playerRecords,
         'game': game,
     }
+    if quarter:
+        info['quarter'] = quarter
     return render(request, 'game/game_record.html', info)
-
 
 
 
@@ -344,7 +415,7 @@ class StatView(LoginRequiredMixin, View):
         
         player_stats = []
         for pr in player_records:
-            pr_object = MyPlayerRecord(
+            pr_object = PlayerGameRecord(
                 pr.playerId.name,
                 pr.playerId.number,
                 pr.numberOfMinutesPlayed,
@@ -364,7 +435,7 @@ class StatView(LoginRequiredMixin, View):
                 pr.defensiveFoul
                 )
 
-            player_stats.append(MyPlayerStat(pr_object).autoGenerate())
+            player_stats.append(pr_object.autoGenerate())
 
         info = {
             'stats': player_stats

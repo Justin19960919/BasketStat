@@ -20,6 +20,9 @@ from django.contrib.auth import views as auth_views
 
 from django.urls import path, include   #include used in line 51 from django.conf import settings 
 
+#  To add media root
+from django.conf.urls.static import static 
+from django.conf import settings
 
 # Import app views
 from usrs import views as usr_views
@@ -56,7 +59,14 @@ urlpatterns = [
     path('register/', usr_views.register, name='register'),
 	path('login/', auth_views.LoginView.as_view(template_name='usrs/login.html'), name='login'),
 	path('logout/', auth_views.LogoutView.as_view(template_name='usrs/logout.html'), name='logout'),
+
+    # profile
+    path('profile/', usr_views.profile, name='profile'),
 ]
+
+# media route
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
