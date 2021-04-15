@@ -3,7 +3,7 @@
 
 {% block content %}
 	<div class="container-fluid p-0 main-body">
-		<div class="row">
+		<div class="row no-gutters">
 			<div class='col-md-8'>
 				<!-- create post btn -->
 
@@ -21,6 +21,25 @@
 					  <p class="post-content">{{ post.content }}</p>
 					</div>
 				{% endfor %}
+
+				<!-- pagination -->
+				{% if is_paginated %}
+					<!-- link to previous page -->
+					{% if page_obj.has_previous %}
+						<div style="margin-left:20px;">
+							<a href="?page=1" class="btn btn-outline-info mb-4">First</a>
+							<a href="?page={{page_obj.previous_page_number}}" class="btn btn-outline-info mb-4">Prev</a>
+						</div>
+					{% endif %}	
+					<!-- link to next page -->
+				    {% if page_obj.has_next %}
+				    	<div style="margin-left:20px;">
+				    		<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+				      	<!-- link to final page -->
+				        	<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+				        </div>
+				    {% endif %}
+				{% endif %}
 			</div>
 			<!-- sidebar -->
 		    <div class="col-md-4">

@@ -20,14 +20,16 @@ from django.views.generic import (ListView,
                                   UpdateView,
                                   DeleteView)
 
-# PostListView
+
+
+
 
 
 class UserPostListView(LoginRequiredMixin, ListView):
     model = Post
     # by default, it renders post_list.html
     context_object_name = 'posts'
-
+    paginate_by = 5
     
     # query for all posts created by user    
     def get_queryset(self):
