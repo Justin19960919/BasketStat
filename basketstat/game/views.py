@@ -28,18 +28,20 @@ from django.views.generic import (ListView,
 from django.views import View
 
 # My classes
-from .playerStat import PlayerGameRecord
+from .playerStat import PlayerGameRecord, ProcessGameRecord
 from .team import TeamGameRecord
 
 # Other python packages
 import datetime
+import os
 
 # Logging
-def writeGamelog(path, msg):
-    with open(path, 'a') as file:
-        msg_time = datetime.datetime.now()
-        msg_time = msg_time.strftime("%m/%d/%Y, %H:%M:%S")
-        file.write(f"[{msg_time}]   {msg}\n")
+
+# def writeGamelog(path, msg):
+#     with open(path, 'a') as file:
+#         msg_time = datetime.datetime.now()
+#         msg_time = msg_time.strftime("%m/%d/%Y, %H:%M:%S")
+#         file.write(f"[{msg_time}]   {msg}\n")
 
 
 # CBV tutorial
@@ -219,7 +221,7 @@ def deleteComment(request, comment_id):
     return HttpResponseRedirect(f'/game/list/{cur_gameId}')
 
 
-
+'''
 @login_required
 def recordGame(request, id):
 
@@ -359,54 +361,61 @@ def recordGame(request, id):
             print(f"Writing to logger.. {msg}\n")
             writeGamelog(path, msg)
 
+        if 'quarter' in post_results:
+            quarter = post_results.get('quarter')
+            print(f"Other team {quarter}")
+            if "other_team_score1" in post_results:
+                print("other team score 1")
+                game.other_total_score += 1
+                if quarter:
+                    if quarter == "q1":
+                        game.other_quarter1_score += 1
+                    elif quarter == "q2":
+                        game.other_quarter2_score += 1
+                    elif quarter == "q3":
+                        game.other_quarter3_score += 1
+                    elif quarter == "q4":
+                        print("hit")
+                        game.other_quarter4_score += 1
+                msg = "Opponent scores 1"
+                writeGamelog(path, msg)
+                game.save()
+                messages.info(request, msg)
 
-        if "other_team_score1" in post_results:
-            game.other_total_score += 1
-            if quarter:
-                if quarter == "q1":
-                    game.other_quarter1_score += 1
-                elif quarter == "q2":
-                    game.other_quarter2_score += 1
-                elif quarter == "q3":
-                    game.other_quarter3_score += 1
-                elif quarter == "q4":
-                    game.other_quarter4_score += 1
-            msg = "Opponent scores 1"
-            writeGamelog(path, msg)
-            game.save()
-            messages.info(request, msg)
-
-        if "other_team_score2" in post_results:
-            game.other_total_score += 2
-            if quarter:
-                if quarter == "q1":
-                    game.other_quarter1_score += 2
-                elif quarter == "q2":
-                    game.other_quarter2_score += 2
-                elif quarter == "q3":
-                    game.other_quarter3_score += 2
-                elif quarter == "q4":
-                    game.other_quarter4_score += 2
-            msg = "Opponent scores 2"
-            writeGamelog(path, msg)
-            game.save()
-            messages.info(request, msg) 
-        
-        if "other_team_score3" in post_results:
-            game.other_total_score += 3
-            if quarter:
-                if quarter == "q1":
-                    game.other_quarter1_score += 3
-                elif quarter == "q2":
-                    game.other_quarter2_score += 3
-                elif quarter == "q3":
-                    game.other_quarter3_score += 3
-                elif quarter == "q4":
-                    game.other_quarter4_score += 3
-            msg = "Opponent scores 3"
-            writeGamelog(path, msg)
-            game.save()
-            messages.info(request, msg)
+            if "other_team_score2" in post_results:
+                print("other team score 2")
+                game.other_total_score += 2
+                if quarter:
+                    if quarter == "q1":
+                        game.other_quarter1_score += 2
+                    elif quarter == "q2":
+                        game.other_quarter2_score += 2
+                    elif quarter == "q3":
+                        game.other_quarter3_score += 2
+                    elif quarter == "q4":
+                        game.other_quarter4_score += 2
+                msg = "Opponent scores 2"
+                writeGamelog(path, msg)
+                game.save()
+                messages.info(request, msg) 
+            
+            if "other_team_score3" in post_results:
+                print("other team score 3")
+                game.other_total_score += 3
+                print(quarter)
+                if quarter:
+                    if quarter == "q1":
+                        game.other_quarter1_score += 3
+                    elif quarter == "q2":
+                        game.other_quarter2_score += 3
+                    elif quarter == "q3":
+                        game.other_quarter3_score += 3
+                    elif quarter == "q4":
+                        game.other_quarter4_score += 3
+                msg = "Opponent scores 3"
+                writeGamelog(path, msg)
+                game.save()
+                messages.info(request, msg)
 
 
     # Drop down to get request
@@ -423,10 +432,51 @@ def recordGame(request, id):
     if quarter:
         info['quarter'] = quarter
     return render(request, 'game/game_record.html', info)
+'''
+
+# strange
+
+@login_required
+def recordGame(request, id):
+    path = f"game/logs/game_{id}_log.txt"
+    if request.method == "POST":
+        pgr = ProcessGameRecord(request, path, id)
+        # print(pgr.game)
+        pgr.processHomeTeam()
+        quarter = pgr.getQuarter()
+
+
+    game = Game.objects.get(id=id)
+    quarter = None
+    pr_get = PlayerRecord.objects.filter(gameId=game)
+    packet = {
+        'player_records': pr_get,
+        'game' : game
+    }
+
+    if quarter:
+        packet['quarter'] = quarter
+    
+    return render(request, 'game/game_record.html', packet)
+
+
 
 
 
 class StatView(LoginRequiredMixin, View):
+    # file downloading
+    # https://djangoadventures.com/how-to-create-file-download-links-in-django/
+    # render logs (commented it out)
+    def openLogger(self, game_id):
+        game_path = f"game/logs/game_{game_id}_log.txt"
+
+        if os.path.exists(game_path):
+            f = open(game_path, 'r')
+            game_log = f.readlines()
+            f.close()
+            return game_log
+
+        return None
 
     def get(self,request,id):
 
@@ -457,14 +507,95 @@ class StatView(LoginRequiredMixin, View):
 
             player_stats.append(pr_object.autoGenerate())
 
+        # game_log = self.openLogger(id)
+        
         info = {
             'stats': player_stats
         }
+        
+        # if game_log:
+        #     info['logs'] = game_log
 
         return render(request, 'game/game_stat.html', info)    
 
     def post(self, request):
         pass
+
+
+## Using django chartits to render charts on the page
+
+def charts(request):
+    return render(request, "game/game_chart.html")
+
+def testing(request):
+    # test for game 28
+    g28 = Game.objects.get(id=28)
+    print(g28)
+
+
+
+
+
+    return HttpResponse("Testing")
+
+'''
+Django ORM queries
+https://simpleisbetterthancomplex.com/tutorial/2016/12/06/how-to-create-group-by-queries.html
+
+from django.db.models import Sum
+from django.db.models import Avg
+
+// Aggregate 
+
+1. Sum
+City.objects.aggregate(Sum('population'))
+{'population__sum': 970880224}  # 970,880,224
+
+2. Avg
+City.objects.aggregate(Avg('population'))
+{'population__avg': 11558097.904761905}  # 11,558,097.90
+
+3. Annotate (Group by) + order by
+// task: get population sum by country
+.value(col1, col2) // columns to be grouped
+
+City.objects.values('country__name') \
+  .annotate(country_population=Sum('population')) \
+  .order_by('-country_population')
+
+--Return:
+[
+  {'country__name': u'China', 'country_population': 309898600},
+  {'country__name': u'United States', 'country_population': 102537091},
+  {'country__name': u'India', 'country_population': 100350602},
+  {'country__name': u'Japan', 'country_population': 65372000},
+  {'country__name': u'Brazil', 'country_population': 38676123},
+  '...(remaining elements truncated)...'
+]
+
+4. filter
+City.objects.values('country__name') \
+  .annotate(country_population=Sum('population')) \
+  .filter(country_population__gt=50000000) \
+  .order_by('-country_population')
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

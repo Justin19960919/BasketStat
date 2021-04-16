@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container-fluid p-0 main-body">
-  <div class="row no-gutters">
+  <!-- <div class="row no-gutters"> -->
 
   			<!-- render player records here -->
 	<table class="table table-sm table-light" style="margin-top: 40px; margin-bottom: 20px;">
@@ -43,6 +43,18 @@
 		{% endfor %}
 	</table>
 
-  </div>
+
+<!-- 	<div>
+		{% if logs %}
+		
+		{% for log in logs %}
+		<p>{{log}}</p>
+		{% endfor %}
+		{% endif %}
+
+	</div> -->
+
+  <!-- </div> -->
+		}
 </div>
 {% endblock content %}

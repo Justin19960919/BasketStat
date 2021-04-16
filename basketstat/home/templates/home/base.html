@@ -6,10 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon -->
-    <link rel="icon" href="static/img/favicon.ico">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Montserrat&family=Train+One&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
@@ -81,8 +80,8 @@
       
       {% endblock content%}
 
-
-
+      <!-- chart js cdn -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
       <!--  -->
       <!-- jQuery first -->
@@ -93,8 +92,7 @@
       <script  src="{% static 'js/main.js' %}"></script>
       {% block javascript %}{% endblock %}
       <!-- page specific js or extra js goes into block java script -->
-      <!-- popper js another cdn -->
-      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script> -->
+
       <!-- Popper js -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
       <!-- Boostrap js -->

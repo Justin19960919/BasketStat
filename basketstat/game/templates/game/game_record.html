@@ -5,17 +5,16 @@
 	<!-- load custom css  -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/record.css' %}">
 	<div class="container-fluid main-body">
-		
 		<div class = "row game-scores">
 			<div class="card">
 			  <div class="game-container">
-			    <h4><b>Home Team</b></h4>
+			    <h4><b>Home</b></h4>
 			    <h1>{{game.total_score}}</h1>
 			  </div>
 			</div>
 			<div class="card">
 			  <div class="game-container">
-			    <h4><b>Opponent</b></h4>
+			    <h4><b>{{game.opponent}}</b></h4>
 			    <h1>{{game.other_total_score}}</h1>
 			  </div>
 			</div>
@@ -166,10 +165,17 @@
 
 
 
+{% block javascript %}
+
+<script>
+console.log("working");
 
 
 
 
+
+</script>
+{% endblock %}
 
 
 

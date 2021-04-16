@@ -23,9 +23,12 @@
 								<li>Real Time Score tracking</li>
 							</ul>
 						</div>
-
+						{% if user.is_authenticated %}
 						<!-- get started buttton -->
+						<a class="btn btn-lg get-started" href="{% url 'about'%}">Get Started</a>
+						{% else %}
 						<a class="btn btn-lg get-started" href="{% url 'register'%}">Get Started</a>
+						{% endif %}
 					</div>
 				</div>
 				<!--  -->
@@ -146,9 +149,9 @@
 	<!-- footer -->
 	<footer id="footer">
 		<div class="container-fluid">
-		  <a href="https://github.com/Justin19960919"><i class="social-icon  fab fa-github"></i></a>
-		  <a href = "mailto: chiehlinleee@gmail.com"><i class="social-icon  fas fa-envelope"></i></a>
-		  <a href="https://www.linkedin.com/in/chieh-lin-lee/"><i class="social-icon  fab fa-linkedin"></i></a>
+		  <a href="https://github.com/Justin19960919" target="_blank"><i class="social-icon  fab fa-github"></i></a>
+		  <a href = "mailto: chiehlinleee@gmail.com" target="_blank"><i class="social-icon  fas fa-envelope"></i></a>
+		  <a href="https://www.linkedin.com/in/chieh-lin-lee/" target="_blank"><i class="social-icon  fab fa-linkedin"></i></a>
 		  
 		  <p>© Copyright 2021 BasketStat</p>
 		</div>

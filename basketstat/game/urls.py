@@ -7,6 +7,10 @@ from .views import (GameListView,
 
 # /game
 urlpatterns = [
+	# testing for group ORM
+	path('test/',views.testing, name="test"),
+
+	path('charts/',views.charts, name="charts"),
 	path('list/', GameListView.as_view(), name = 'game-list'),
 	path('list/<int:id>',views.displayGameAndComment, name = 'game-detail'),
 	path('record/<int:id>',views.recordGame, name = 'game-record'),
