@@ -7,6 +7,9 @@
 
 
 
+# testing
+
+
 # Basic team stats
 class TeamGameRecord:
 	
@@ -20,6 +23,10 @@ class TeamGameRecord:
 	def removePlayerRecord(self):
 		# pop the last item
 		self.teamGameRecord.pop()
+
+
+	def roundToPercentage(self, someFloat):
+		return round(someFloat * 100, 2)
 
 
 	def getBasicTeamStats(self):
@@ -54,8 +61,8 @@ class TeamGameRecord:
 				team2PM += pgr.twoPointersMade
 				team3P += pgr.threePointers
 				team3PM += pgr.threePointersMade
-				teamFTA += pgr.freeThrows
-				teamFTM += pgr.freeThrowsMade
+				teamFTA += pgr.freethrows
+				teamFTM += pgr.freethrowMade
 				teamORB += pgr.offensiveRebound
 				teamDRB += pgr.defensiveRebound
 				teamBlK += pgr.block
@@ -70,16 +77,16 @@ class TeamGameRecord:
 				'totalMinutes': teamTime,
 				'total2P': team2P,
 				'total2PM': team2PM,
-				'total2PP': round(team2PM/ team2P, 4),
+				'total2PP': self.roundToPercentage(team2PM/ team2P),
 				'total3P': team3P,
 				'total3PM': team3PM,
-				'total3PP': round(team3PM/ team3P, 4),
+				'total3PP': self.roundToPercentage(team3PM/ team3P),
 				'totalFGA': team2P + team3P,
 				'totalFGM': team2PM + team3PM,
-				'totalFGP': round((team2PM + team3PM) / (team2P + team3P), 2),
+				'totalFGP': self.roundToPercentage((team2PM + team3PM) / (team2P + team3P)),
 				'totalFTA': teamFTA,
 				'totalFTM': teamFTM,
-				'totalFTP': round(teamFTM / teamFTA, 4),
+				'totalFTP': self.roundToPercentage(teamFTM / teamFTA),
 				'totalORB': teamORB,
 				'totalDRB': teamDRB,
 				'totalRB': teamORB + teamDRB,
@@ -101,12 +108,13 @@ class TeamGameRecord:
 	def getPlayerUSG(self, playerRecord):
 		# if team stats exist, then we return usage rate
 		if self.teamStats:
-			usg = (playerRecord.getFieldGoalAttempts() + 0.44 *playerRecord.freeThrows + playerRecord.turnover) /(self.teamStats['totalFGA'] + 0.44 * self.teamStats['totalFTA'] + self.teamStats['totalTO'])
+			usg = ((self.teamStats['totalMinutes']/5) *(playerRecord.getFieldGoalAttempts() + 0.44 *playerRecord.freeThrows + playerRecord.turnover)) /(playerRecord.numberOfMinutesPlayed * (self.teamStats['totalFGA'] + 0.44 * self.teamStats['totalFTA'] + self.teamStats['totalTO']))
 			print(f"Usage rate of {playerRecord.name} is {round(usg, 3)}")
 			return round(usg, 3)
 
 		else:
 			print("Team stats not available yet")
+
 
 	############ Opponent Team not yet specified ############
 
@@ -118,7 +126,7 @@ class TeamGameRecord:
 			# opponentTeam is not specified yet
 			return (playerRecord.getTotalRebounds() * (self.teamStats['totalMinutes'] / 5)) / (playerRecord.numberOfMinutesPlayed * (self.teamStats['totalRB'] + opponentTeam.totalRebounds))
 
-	# player offensive rebound
+	# player offensive rebound percentage
 	def getPlayerORB(self, playerRecord, opponentTeam):
 		if not self.teamStats or not opponentTeam:
 			print("Missing team stats or opponent team data")
@@ -126,7 +134,7 @@ class TeamGameRecord:
 			# opponentTeam is not specified yet
 			return (playerRecord.offensiveRebound * (self.teamStats['totalMinutes'] / 5)) / (playerRecord.numberOfMinutesPlayed * (self.teamStats['totalORB'] + opponentTeam.totalOffensiveRebounds))		
 
-	# player defensive rebound
+	# player defensive rebound percentage
 	def getPlayerDRB(self, playerRecord, opponentTeam):
 		if not self.teamStats or not opponentTeam:
 			print("Missing team stats or opponent team data")
