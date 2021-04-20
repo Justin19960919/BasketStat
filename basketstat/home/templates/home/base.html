@@ -16,6 +16,15 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- My css files -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+    <!-- testing -->
+<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+ -->
+
+
   </head>
   <body>
     <!-- header -->
@@ -24,13 +33,12 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">
             BasketStat
-            <!-- we can put an img here if we want as logo -->
-            <!-- <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"> -->
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler ml-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          
+          <div class="collapse navbar-collapse ml-auto" id="navbarNavDropdown">
             
             <div class="navbar-nav mr-auto">
               <!-- <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a> -->
@@ -45,34 +53,35 @@
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Features
                   </a>
-                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                     <li><a class="dropdown-item" href="{% url 'post-list'%}">Posts</a></li>
                     <li><a class="dropdown-item" href="{% url 'game-list'%}">Games</a></li>
                     <li><a class="dropdown-item" href="{% url 'player-list'%}">Players</a></li>
-
                   </ul>
                 </li>
-                <!-- Profile -->
-                <div class="dropdown">
-                  <a class="dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle account-homepage" src={{user.profile.image.url}}>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a class="dropdown-item" href="{% url 'profile'%}">Profile</a></li>
-                    <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
-                  </ul>
-                </div>
-
-
-              {% else %}
-                <a class="nav-link" href="{% url 'login'%}">Login</a>
-                <a class="nav-link" href="{% url 'register'%}">Register</a>
-              {% endif %}
-              
+                {% endif %}
             </div>
           </div>
-        </nav>
-      </header>
+          {% if user.is_authenticated %}
+            <div class="dropdown">
+              <!-- <a class="d-flex dropdown-toggle" data-bs-toggle="dropdown"> -->
+              <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                <img class="rounded-circle account-homepage ml-2" src={{user.profile.image.url}}>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="{% url 'profile'%}">Profile</a>
+                <a class="dropdown-item" href="{% url 'logout'%}">Logout</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="navbar-nav ml-auto">
+              <a class="nav-link" href="{% url 'login'%}">Login</a>
+              <a class="nav-link" href="{% url 'register'%}">Register</a>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    </header>
       
 
       <!-- main content here -->
@@ -82,7 +91,6 @@
 
       <!-- chart js cdn -->
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
       <!--  -->
       <!-- jQuery first -->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -92,9 +100,6 @@
       <script  src="{% static 'js/main.js' %}"></script>
       {% block javascript %}{% endblock %}
       <!-- page specific js or extra js goes into block java script -->
-
-      <!-- Popper js -->
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
       <!-- Boostrap js -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
       

@@ -15,15 +15,15 @@
             
             <div class="row">
               {% for game in games %}
-                <div class="col-lg-6 col-md-4 col-sm-12 game border border-end">
+                <div class="col-lg-6 col-md-4 col-sm-12 col-12 game border border-end">
                   
                   <div class="row game-score">
-                    <div class="col-sm">
+                    <div class="col-sm col">
                       <img src="{% static 'img/team1.png' %}" alt="team1" style="width:90px; height:90px;">
-                      <h6 class="team">HomeTeam</h6>
+                      <h6 class="team">Home Team</h6>
                     </div>
                     
-                    <div class="col-sm score">
+                    <div class="col-sm score col">
                       <h6>{{game.total_score}}
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
@@ -36,7 +36,7 @@
                       <p>Season: {{game.season}}</p>
                       <p>Date: {{game.dateOfGame|date:"D  M d Y"}}</p>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-sm col">
                       <img src="{% static 'img/team2.png' %}" alt="team2" style="width:90px; height:90px;">
                       <h6 class="team">{{game.opponent}}</h6>
                     </div>

@@ -96,7 +96,7 @@ a.post-title:hover {
   background-color: #f5f4f2;
   color: black;
   margin-bottom: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
 .game-score{
@@ -109,7 +109,7 @@ a.post-title:hover {
 .score{
   margin:auto;
 }
-.score > h6{
+.score h6{
   font-size: 30px;
 }
 
@@ -122,13 +122,22 @@ a.post-title:hover {
   height: 20%;
 }
 
-.game-links > div{
+.game-links div{
   width: 33.33%;
   height: 100%;
   text-align:center;
   font-weight: bold;
   font-size: 19px;
   padding: 5px;
+}
+
+.game-links a{
+  color:#2F4F4F;
+  font-weight: bold;
+}
+
+.game-links a:hover{
+  color: #00BFFF;
 }
 
 
