@@ -1,3 +1,46 @@
+'''
+Django ORM queries
+https://simpleisbetterthancomplex.com/tutorial/2016/12/06/how-to-create-group-by-queries.html
+
+from django.db.models import Sum
+from django.db.models import Avg
+
+// Aggregate 
+
+1. Sum
+City.objects.aggregate(Sum('population'))
+{'population__sum': 970880224}  # 970,880,224
+
+2. Avg
+City.objects.aggregate(Avg('population'))
+{'population__avg': 11558097.904761905}  # 11,558,097.90
+
+3. Annotate (Group by) + order by
+// task: get population sum by country
+.value(col1, col2) // columns to be grouped
+
+City.objects.values('country__name') \
+  .annotate(country_population=Sum('population')) \
+  .order_by('-country_population')
+
+--Return:
+[
+  {'country__name': u'China', 'country_population': 309898600},
+  {'country__name': u'United States', 'country_population': 102537091},
+  {'country__name': u'India', 'country_population': 100350602},
+  {'country__name': u'Japan', 'country_population': 65372000},
+  {'country__name': u'Brazil', 'country_population': 38676123},
+  '...(remaining elements truncated)...'
+]
+
+4. filter
+City.objects.values('country__name') \
+  .annotate(country_population=Sum('population')) \
+  .filter(country_population__gt=50000000) \
+  .order_by('-country_population')
+
+'''
+
 ######################################################################
 # CBV tutorial
 # https://simpleisbetterthancomplex.com/series/2017/10/09/a-complete-beginners-guide-to-django-part-6.html
@@ -517,6 +560,7 @@ class ProcessGameRecordView(LoginRequiredMixin, View):
 
 
 
+############################
 
 class StatView(LoginRequiredMixin, View):
 
@@ -550,54 +594,11 @@ class StatView(LoginRequiredMixin, View):
 
         
         info = {
+            'id': id,
             'stats': player_stats
         }
         
         return render(request, 'game/game_stat.html', info)    
-
-
-'''
-Django ORM queries
-https://simpleisbetterthancomplex.com/tutorial/2016/12/06/how-to-create-group-by-queries.html
-
-from django.db.models import Sum
-from django.db.models import Avg
-
-// Aggregate 
-
-1. Sum
-City.objects.aggregate(Sum('population'))
-{'population__sum': 970880224}  # 970,880,224
-
-2. Avg
-City.objects.aggregate(Avg('population'))
-{'population__avg': 11558097.904761905}  # 11,558,097.90
-
-3. Annotate (Group by) + order by
-// task: get population sum by country
-.value(col1, col2) // columns to be grouped
-
-City.objects.values('country__name') \
-  .annotate(country_population=Sum('population')) \
-  .order_by('-country_population')
-
---Return:
-[
-  {'country__name': u'China', 'country_population': 309898600},
-  {'country__name': u'United States', 'country_population': 102537091},
-  {'country__name': u'India', 'country_population': 100350602},
-  {'country__name': u'Japan', 'country_population': 65372000},
-  {'country__name': u'Brazil', 'country_population': 38676123},
-  '...(remaining elements truncated)...'
-]
-
-4. filter
-City.objects.values('country__name') \
-  .annotate(country_population=Sum('population')) \
-  .filter(country_population__gt=50000000) \
-  .order_by('-country_population')
-
-'''
 
 
 def get_accumulative(target_list):
@@ -605,13 +606,11 @@ def get_accumulative(target_list):
     return accumulative_list
 
 
-
-@login_required
-def linechart(request):
+def linechart(request, id):
     # test for game 28
-    g28 = Game.objects.get(id=28)
-    game_quarter_scores = get_accumulative([g28.quarter1_score, g28.quarter2_score, g28.quarter3_score, g28.quarter4_score])
-    game_other_quarter_scores = get_accumulative([g28.other_quarter1_score, g28.other_quarter2_score, g28.other_quarter3_score, g28.other_quarter4_score])
+    game = Game.objects.get(id=id)
+    game_quarter_scores = get_accumulative([game.quarter1_score, game.quarter2_score, game.quarter3_score, game.quarter4_score])
+    game_other_quarter_scores = get_accumulative([game.other_quarter1_score, game.other_quarter2_score, game.other_quarter3_score, game.other_quarter4_score])
 
     print("Home team: ", game_quarter_scores)  # done
     print("Opponent: ", game_other_quarter_scores)    # done
@@ -626,11 +625,11 @@ def linechart(request):
     return JsonResponse(data)
 
 
-# working
-def printTeamStats(request):
+
+def getTeamStats(request, id):
     # game id is dummy, testing for now
     tgr = TeamGameRecord()
-    game = Game.objects.get(id=24)
+    game = Game.objects.get(id=id)
     player_records = PlayerRecord.objects.filter(gameId=game)
 
     # set up the team game record class   
@@ -640,8 +639,12 @@ def printTeamStats(request):
     # initialize all team stats
     tgr.initTeamStat() 
 
+    data = {
+        "data": tgr.teamStats,
+    }
 
-    return JsonResponse({"data": tgr.teamStats})
+    return JsonResponse(data)
+
 
 # chart.js
 # 1
@@ -651,8 +654,8 @@ def printTeamStats(request):
 # load charts to the same page, nice code
 # https://testdriven.io/blog/django-charts/
 
-def charts(request):
-    return render(request, "game/game_chart.html")
+# def charts(request):
+#     return render(request, "game/game_chart.html")
 
 
 

@@ -4,14 +4,30 @@
 
 {% block content %}
 
+<style type="text/css">
+.chart-container{
+  width: 500px;
+  height:500px;
+}  
+</style>
+
 <div class="container-fluid main-body">
 
-  <!-- quarter score line chart -->
-  <div id="container" style="width: 50%;">
-    <canvas id="line-chart"></canvas>
+
+  <div class="row">
+    <!-- quarter score line chart -->  
+    <div class="chart-container col-6">
+      <canvas id="line-chart"></canvas>
+    </div>
+    
+    <!-- shot selection pie chart -->
+    <div class="chart-container col-6">
+      <canvas id="pie-chart"></canvas>
+    </div> 
+
+
   </div>
-
-
+  
 
 
 </div>

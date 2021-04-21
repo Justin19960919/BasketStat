@@ -8,13 +8,13 @@ from .views import (GameListView,
 
 # /game
 urlpatterns = [
-	# testing path
-	path('test/', views.printTeamStats),
-	# charts
-	path('test-linechart/', views.linechart, name="linechart"),
-	path('charts/', views.charts, name="charts"),
+	#### chart.js routes
+	path('shot-selection/<int:id>', views.getTeamStats, name="teamStats"),
+	path('quarter-scores/<int:id>', views.linechart, name="linechart"),
+	# path('charts/', views.charts, name="charts"),
+	
 
-	#####
+	##### normal routes
 	path('list/', GameListView.as_view(), name = 'game-list'),
 	path('list/<int:id>',views.displayGameAndComment, name = 'game-detail'),
 	# path('record/<int:id>',views.recordGame, name = 'game-record'),

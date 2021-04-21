@@ -25,9 +25,11 @@ class TeamGameRecord:
 		self.teamGameRecord.pop()
 
 
-	def roundToPercentage(self, someFloat):
-		return round(someFloat * 100, 2)
-
+	def roundToPercentage(self, a, b):
+		try:
+			return round(a/b * 100, 2)
+		except:
+			return 0
 
 	def getBasicTeamStats(self):
 		
@@ -77,16 +79,16 @@ class TeamGameRecord:
 				'totalMinutes': teamTime,
 				'total2P': team2P,
 				'total2PM': team2PM,
-				'total2PP': self.roundToPercentage(team2PM/ team2P),
+				'total2PP': self.roundToPercentage(team2PM, team2P),
 				'total3P': team3P,
 				'total3PM': team3PM,
-				'total3PP': self.roundToPercentage(team3PM/ team3P),
+				'total3PP': self.roundToPercentage(team3PM, team3P),
 				'totalFGA': team2P + team3P,
 				'totalFGM': team2PM + team3PM,
-				'totalFGP': self.roundToPercentage((team2PM + team3PM) / (team2P + team3P)),
+				'totalFGP': self.roundToPercentage((team2PM + team3PM), (team2P + team3P)),
 				'totalFTA': teamFTA,
 				'totalFTM': teamFTM,
-				'totalFTP': self.roundToPercentage(teamFTM / teamFTA),
+				'totalFTP': self.roundToPercentage(teamFTM, teamFTA),
 				'totalORB': teamORB,
 				'totalDRB': teamDRB,
 				'totalRB': teamORB + teamDRB,

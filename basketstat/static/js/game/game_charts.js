@@ -1,9 +1,18 @@
-console.log("loading game charts.js")
 $(function(){
-  var endpoint = "/game/test-linechart/";
-  var $lineChart = $('#line-chart');
+
+
+  const id = JSON.parse(document.getElementById('id').textContent).toString();;
+
+  console.log("Game id is: ", id);
+
+
+  console.log("loading game_charts.js file");
+  var linechart_endpoint = "/game/quarter-scores/".concat(id);
+  var piechart_endpoint = "/game/shot-selection/".concat(id);
+
+  // line chart ajax
   $.ajax({
-    url: endpoint,
+    url: linechart_endpoint,
     success: function(data){
       drawLineGraph(data, 'line-chart');  // call function
       console.log("Drawing line chart..");
@@ -12,7 +21,60 @@ $(function(){
       console.log("Error: ",error_data);
     }
   })
-  // define functions to call
+
+  // pie chart ajax
+  $.ajax({
+    url: piechart_endpoint,
+    success: function(data){
+      drawPieChart(data, 'pie-chart');  // call function
+      console.log("Drawing pie chart..");
+    },
+    error: function(error_data){
+      console.log("Error: ",error_data);
+    }
+  })
+
+
+
+  // draw piechart using team statistics
+  function drawPieChart(data, id) {
+    var teamStats = data.data;
+    console.log(teamStats);
+    
+    let ctx = document.getElementById(id).getContext('2d');   //ctx
+    var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'pie',
+      // The data for our dataset
+      data: {
+        labels: ['Two Point shots', 'Three point shots'],
+        datasets: [{
+          data: [teamStats.total2P, teamStats.total3P],
+          borderColor:[
+            "#3cba9f",
+            "#ffa500",
+          ],
+          backgroundColor: [
+            "rgb(60,186,159,0.1)",
+            "rgb(255,165,0,0.1)",
+          ],
+          borderWidth:2,
+          hoverOffset: 4,
+        }]
+      },
+
+      // Configuration options go here
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+   }
+
+
+
+
+  // draw the scores line graph
   function drawLineGraph(data, id) {
     var title = data.title;
     var chartlabels = data.labels;
@@ -21,7 +83,7 @@ $(function(){
     console.log(chartlabels, data_home, data_opponent);
 
     
-    var ctx = document.getElementById(id).getContext('2d');   //ctx
+    let ctx = document.getElementById(id).getContext('2d');   //ctx
     var chart = new Chart(ctx, {
       // The type of chart we want to create
       type: 'line',
@@ -34,33 +96,68 @@ $(function(){
           borderColor: "#3e95cd",
           backgroundColor: "#7bb6dd",
           fill: false,
+          
         },{
           data: data_opponent,
           label: "Opponent",
-          borderColor: "#3cba9f",
+          borderColor: "#3cba9f", /*borderColor: "rgb(196,88,80)",*/
           backgroundColor: "#71d1bd",
           fill: false,
+        },
 
-        }
+
+
         ]
       },
 
       // Configuration options go here
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: 'World population per region (in millions)'
+        },
         scales: {
-          xAxes: [{
-            display: true
+          x: [{
+            display: true,
           }],
-          yAxes: [{
+          y: [{
+            display: true,
             ticks: {
+              min: 0,
+              max: 100,
               beginAtZero: true
             }
           }]
-        }
+        },
+
+      // ------- layout option -------
+      
+      // layout:{
+      //  padding:{
+      //    left:0,
+      //    right:0,
+      //    top:0,
+      //    bottom:0
+      //  }
+      // }
       }
+
+
+
+
+
+
 
     });
   }
+
+
+
+
+
+
 
 
 });

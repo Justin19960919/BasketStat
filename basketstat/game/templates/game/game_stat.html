@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block content %}
+<style type="text/css">
+.chart-container{
+  width: 500px;
+  height:500px;
+}
+.hide_id{
+	display: none;
+}
+
+
+</style>
+
 <div class="container-fluid p-0 main-body">
   <!-- <div class="row no-gutters"> -->
 
@@ -42,8 +54,35 @@
 			</tr>
 		{% endfor %}
 	</table>
+	
+
+	<div class="hide_id">
+  		<p>{{id}}</p>
+  	</div>
 
 
+  <!-- charts -->
+  <div class="row">
+    <!-- quarter score line chart -->  
+    <div class="chart-container col-6">
+      <canvas id="line-chart"></canvas>
+    </div>
+    
+    <!-- shot selection pie chart -->
+    <div class="chart-container col-6">
+      <canvas id="pie-chart"></canvas>
+    </div> 
+
+  </div>
+  
+
+  {{id|json_script:"id"}}
+
+
+
+
+
+<!-- logging -->
 <!-- 	<div>
 		{% if logs %}
 		
@@ -58,3 +97,8 @@
 		
 </div>
 {% endblock content %}
+
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/game/game_charts.js' %}"></script>
+{% endblock %}
