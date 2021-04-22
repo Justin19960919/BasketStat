@@ -17,6 +17,7 @@ class Log:
         return f"Datetime: {self.datetime}, Quarter: {self.quarter}, Subject: {self.subject} Action: {self.action}"
 
 
+    # return minutes rounded up 2 digits
     def get_time_diff(self, o):
         # time delta object
         if o.datetime > self.datetime:
@@ -52,10 +53,7 @@ class LogAnalyzer:
     TO = 'has TO'
     OF = 'commits OF'
     DF = 'commits DF'
-    OPP1 = 'scores 1'
-    OPP2 = 'scores 2'
-    OPP3 = 'scores 3'
-    
+
     def __init__(self, game_id):
         self.logs = self.readFile(game_id)
         self.logsArray = self.cleanLog()
