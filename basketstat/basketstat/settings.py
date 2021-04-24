@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,7 +28,7 @@ SECRET_KEY = '=$qf@waq$fbr6k5q&5j$@a3j64@ai#tx-&6g+nd0)!*(8a7d5='
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '4f98a9d50ed6.ngrok.io', # for ngrok connections
+    # '4f98a9d50ed6.ngrok.io', # for ngrok connections
 ]
 
 
@@ -162,6 +163,28 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # change login redirect url
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+### EMAILS
+## set up for sending emails for password reset
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# configure to dotenv later
+# load from private environment
+# EMAIL_HOST_USER = 'wadesuperstar@gmail.com'
+# EMAIL_HOST_PASSWORD = 'aafdadfasdadsfcasdfad'
+EMAIL_HOST_USER = os.getenv('EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('PWD')
+
+
+
+
+
+
+
+
 
 
 

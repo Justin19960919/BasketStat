@@ -25,12 +25,13 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">
             BasketStat
+            <!-- we can put an img here if we want as logo -->
+            <!-- <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"> -->
           </a>
-          <button class="navbar-toggler ml-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
-          
-          <div class="collapse navbar-collapse ml-auto" id="navbarNavDropdown">
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
             
             <div class="navbar-nav mr-auto">
               <!-- <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a> -->
@@ -45,35 +46,33 @@
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Features
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                     <li><a class="dropdown-item" href="{% url 'post-list'%}">Posts</a></li>
                     <li><a class="dropdown-item" href="{% url 'game-list'%}">Games</a></li>
                     <li><a class="dropdown-item" href="{% url 'player-list'%}">Players</a></li>
+
                   </ul>
                 </li>
-                {% endif %}
+                <!-- Profile -->
+                <!-- style change to turn to sticky -->
+                <div class="dropdown">
+                  <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle account-homepage" src={{user.profile.image.url}}>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item" href="{% url 'profile'%}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
+                  </ul>
+                </div>
+              {% else %}
+                <a class="nav-link" href="{% url 'login'%}">Login</a>
+                <a class="nav-link" href="{% url 'register'%}">Register</a>
+              {% endif %}
+              
             </div>
           </div>
-          {% if user.is_authenticated %}
-            <div class="dropdown">
-              <!-- <a class="d-flex dropdown-toggle" data-bs-toggle="dropdown"> -->
-              <a class="dropdown-toggle" data-bs-toggle="dropdown">
-                <img class="rounded-circle account-homepage ml-2" src={{user.profile.image.url}}>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="{% url 'profile'%}">Profile</a>
-                <a class="dropdown-item" href="{% url 'logout'%}">Logout</a>
-              </div>
-            </div>
-          {% else %}
-            <div class="navbar-nav ml-auto">
-              <a class="nav-link" href="{% url 'login'%}">Login</a>
-              <a class="nav-link" href="{% url 'register'%}">Register</a>
-            </div>
-          {% endif %}
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
       
 
       <!-- main content here -->
