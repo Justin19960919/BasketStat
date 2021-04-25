@@ -144,23 +144,63 @@ a.post-title:hover {
 /* --------- game detail---------*/
 
 .game-detail{
-
+  width: 90%;
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
 }
 
 
-.game-quarter-score, .game-player-score{
-
+.game-quarter-score{
+  border-collapse: collapse;
+  margin: auto;
+  text-align: center;
 }
 
 
-.game-video{
-
+.game-player-score{
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid #202020;
+  margin: 10px auto;
 }
+
+
+.game-player-score th{
+  border: 1px solid #202020;
+  padding: 8px;
+}
+
+
+.game-player-score td{
+  border: 1px solid #202020;
+  padding: 8px;
+}
+
 
 .game-info{
+  border: 1px solid #ced4da;
+  background-color: #f8f9fa;
+}
 
+
+.game-info h4{
+  background-color: #010E14;
+  padding: 10px;
+  height: 50px;
+  color: white;
 
 }
+
+
+.game-info h5{
+  padding: 0px 0px 5px 10px;
+}
+
+
+#game-info-buttons{
+  padding-left:10px;
+}
+
 
 /* --------- leave comment pop up form --------- */
 
@@ -177,6 +217,8 @@ a.post-title:hover {
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */  
   color: ivory;
+
+  font-family: 'Roboto', sans-serif;
 }
 
 
@@ -200,11 +242,23 @@ a.post-title:hover {
 
 
 /* --------- game comment --------- */
+.comment-banner{
+  height: 45px;
+  text-align: center;
+  margin: 4px auto 4px auto;
+  width: 90%;
+  padding: 10px;
+  background-color: rgba(1,14,20, 0.8);
+  color: white;
+}
+
+
+
+
 .comment{
-  /*background-color: #FFFAFA ;*/
   padding: 20px;
   width: 90%;
-  margin: 5px auto;
+  margin: 0px auto 5px auto;
   border-style: groove;
   border-width: 0.5px;
   position: relative;

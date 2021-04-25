@@ -3,11 +3,35 @@
 {% block content %}
 <div class="container-fluid p-0 main-body">
 	<div class="row no-gutters">
-		<div class='col-lg-8 col-sm-12 col-xs-12'>
+		<div class='col-lg-8 col-md-12 col-sm-12 col-xs-12'>
 			
 			<div class="game-detail">
+	          
+				<a class="btn btn-outline-dark btn-md mt-2 mb-2" href="{% url 'game-record' game.id%}">Start Recording</a>
+
+				<!-- game info -->
+				<div class="game-info">
+					<h4>Game infomation</h4>
+
+					<h5>Season: {{game.season}}</h5>
+					<h5>Date: {{game.dateOfGame| date:"D, m-d-Y"}}</h5>
+					<h5>Area: {{game.area}}</h5>
+					<h5><a href="{{game.gameUrl}}">Game Link</a></h5>
+				
+					<!-- game update/delete -->
+					{% if game.creator == user %}
+						<div id="game-info-buttons">
+							<a class="btn btn-secondary btn-md mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
+							<a class="btn btn-danger btn-md mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
+						</div>
+					{% endif %}
+				</div>
+
+
+
 				<!-- game quarter score -->
-				<table class="table game-quarter-score">
+				<table class="table game-quarter-score 
+				table-hover">
 					<thead>
 						<tr>
 							<th scope="col">Teams</th>
@@ -20,7 +44,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th scope="row">HomeTeam</th>
+							<th scope="row">Home Team</th>
 							<td>{{game.quarter1_score}}</td>
 							<td>{{game.quarter2_score}}</td>
 							<td>{{game.quarter3_score}}</td>
@@ -41,29 +65,29 @@
 				<!-- render game player records here -->
 				<table class="game-player-score">
 					<tr>
-						<th>Player Number</th>
-						<th>Player Name</th>
-						<th>Number of Minutes played</th>
-						<th>Two pointers</th>
-						<th>Two pointers Made</th>
-						<th>Three pointers</th>
-						<th>Three pointers Made</th>
-						<th>Free throws</th>
-						<th>Free throws Made</th>
-						<th>Offensive Rebound</th>
-						<th>Defensive Rebound</th>
-						<th>Blocks</th>
-						<th>Steals</th>
-						<th>Assists</th>
-						<th>Turnovers</th>
-						<th>Offensive Foul</th>
-						<th>Defensive Foul</th>
+						<th>Number</th>
+						<th>Name</th>
+						<th>MIN</th>
+						<th>2P</th>
+						<th>2PM</th>
+						<th>3P</th>
+						<th>3PM</th>
+						<th>FT</th>
+						<th>FTM</th>
+						<th>OR</th>
+						<th>DR</th>
+						<th>BLK</th>
+						<th>STL</th>
+						<th>AST</th>
+						<th>TO</th>
+						<th>OF</th>
+						<th>DF</th>
 					</tr>
 					{% for pr in player_records %}
 						<tr>
 							<td>{{pr.playerId.number}}</td>
 							<td>{{pr.playerId.name}}</td>
-							<td>{{pr.numberOfMinutesPlayer}}</td>
+							<td>{{pr.numberOfMinutesPlayed}}</td>
 							<td>{{pr.twoPointers}}</td>
 							<td>{{pr.twoPointersMade}}</td>
 							<td>{{pr.threePointers}}</td>
@@ -81,40 +105,33 @@
 						</tr>
 					{% endfor %}
 				</table>
-				<!-- game info -->
-				<div class="game-info">
-					<h5>Game infomation</h5>
-					<p>Season: {{game.season}}</p>
-					<p>Date: {{game.dateOfGame}}</p>
-					<p>Area: {{game.area}}</p>
-				</div>
-				<!-- game link -->
-				<p><a href="{{game.gameUrl}}">Game Link</a></p>
-				
-				<!-- game update/delete -->
-				{% if game.creator == user %}
-					<div>
-						<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
-						<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
-					</div>
-				{% endif %}
-				<a class="btn btn-light btn-md mt-1 mb-1" href="{% url 'game-record' game.id%}">Start Recording</a>
-				
+
+
+
+
+
+
 			</div>
+			<!-- game detail end -->
 		</div>
 		
 
 
-
-
-
-
 		<!-- comments -->
-		<div class="col-lg-4 col-sm-12 col-xs-12">
+		<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+
+			<h5 class="comment-banner">
+				<i class="far fa-comment mr-3"></i>
+				Comments
+			</h5>
+			
+
+
 			<!-- comment list -->
-			<div id="comment-list">
+			<div>
 				{% for comment in comments %}
 					<div class="comment">
+						<!-- delete comment button -->
 						<a href="{% url 'delete-comment' comment.id %}">
 							<i class="fas fa-times fa-lg"></i>
 						</a>
@@ -133,7 +150,7 @@
 			
 			<!-- pop up form -->
 			<div id="overlay">
-
+				<!-- close pop up button -->
 				<a class="closebtn" onclick="closeLeaveComment()">X</a>
 
 				<form class="form overlay-form" autocomplete="off" id="leave-comment" method="POST">
@@ -180,7 +197,7 @@ function closeLeaveComment(){
 
 
 $(function(){
-	// ajax
+	// leave comment
 	$("#leave-comment").submit(function(e){
 		
 		closeLeaveComment();
@@ -227,7 +244,6 @@ $(function(){
 	})
 
 
-// document get ready function
 })
 
 
