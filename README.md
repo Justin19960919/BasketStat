@@ -6,16 +6,16 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This project was built with the intention of creating a webapp that serves the purpose of recording basketball scores, which include
-player scores, and team scores on the court, which provides a real-time analysis and calculation of team/ player statistics to help 
-a local basketball team grow. The idea was that local basketball teams don't have the time and resources to hire an analytics team
-to help with analyzing player combinations and track performance. Most team adjustments weren't data driven, and teams miss the 
-opportunity to grow. The website also serves as a platform to integrate Posts, player management, score-tracking, and analysis all 
-in one place.
+player scores, and team scores on the court, while also providing a real-time analysis and calculation of team/ player statistics to help 
+a local basketball team grow. 
+
+The idea was that local basketball teams don't have the time and resources to hire an analytics team to help with analyzing player combinations
+and player / team performancesm, leading to non data driven adjustments. This website will serve as a platform to integrate posts, player management, 
+score-tracking, and analysis all in one place.
 
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * Django
 * Python 
 * JavaScript
