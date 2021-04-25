@@ -62,32 +62,52 @@ Other dependencies include:
 
 
 ## Features
+An user is a whole basketball team, different teams can't access each others information.
+- Landing Page
+   ###### Landing page to introduce users to the features, and point to registering for an user
 
-- Login / Logout
-   - adf
+- Register/ Login / Logout
+   - User needs to register in order to user the app
+   - Upon register success, we create profile in the backend
+
 
 - Profile
+   - User can modify Profile, including change user profile picture
+   - change information , e.g. Email
 
 
 - Posts
+   - B.c. a whole team shares an account, they can post about their feelings or thoughts
+   regarding the game or practice.
 
 
 - Games
+   - CRUD functionality 
+   - Keep track of all the games the team has played.
 
 
 - Game Details
+   - Details of the game (display information about the game when creating)
+   - Access to player statistics in that game
 
 
 - Record in game
+   - Record the game in real time, upon creation of the game
+   - Moves include scoring, rebounds, steals, assists, fouls .. etc
+   - Automatic logging of play by play records when recording in the backend
 
 
 - Comments
+   - Comment about the game (what can be done better ..)
 
 
 - Statistics
+   - Automatic calculation of player and team statistics, and high level statistics including efg% (effective field goal pecentage), TS% (true shooting percentage ..etc)
+   - Visualization using chart.js
 
 
 - Players
-
+   - Create / Delete players to the team
+   - Once a player is created, upon creation of a game, the user is asked which players are to play in the game.
 
 
