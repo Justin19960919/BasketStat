@@ -41,6 +41,7 @@ City.objects.values('country__name') \
 
 '''
 
+
 ######################################################################
 # CBV tutorial
 # https://simpleisbetterthancomplex.com/series/2017/10/09/a-complete-beginners-guide-to-django-part-6.html
@@ -48,6 +49,28 @@ City.objects.values('country__name') \
 # Many to many relationships
 #https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/
 
+
+# create view
+# class GameCreateView(LoginRequiredMixin, CreateView):
+#     model = Game
+#     form_class = CreateGameForm
+#     template_name = "game/game_form.html"
+
+#     # form_valid foes the form saving
+#     # override the form_valid function
+#     def form_valid(self, form):
+#         # set the instance to current logged in user
+#         form.instance.creator = self.request.user
+#         return super().form_valid(form)
+    
+    # Constructs a dictionary with the parameters necessary to initialize the form
+    # specifies before initialization of form
+    # def get_form_kwargs(self):
+    #     data = super(GameCreateView, self).get_form_kwargs()
+    #     data.update(
+    #         players = Player.objects.get(belongsTo=self.request.user)
+    #     )
+    #     return data
 
 ######################################################################
 
@@ -67,7 +90,7 @@ from django.db.models import Sum, Avg
 
 # Chart js
 from django.http import JsonResponse
-
+from django.core import serializers
 
 # import forms
 from django import forms
@@ -116,31 +139,9 @@ class GameListView(LoginRequiredMixin, ListView):
 # id is a parameter here passed in through the url
 @login_required
 def displayGameAndComment(request, id):
-    foundGame = Game.objects.get(id=id)
-    # print(foundGame)
+    foundGame = Game.objects.get(id=id)    # get the id of the this game
+    players = foundGame.players.all() # get all players associated with this game
     
-    # if this is a post request
-    if request.method == 'POST':
-        if "addComment" in request.POST:
-            print("Received post request from adding comments ...")
-            print(request.POST)
-            # print(request.POST['addComment'])
-            # print(request.POST['comment'])
-            # print(request.POST['author'])
-            print("Starting to fetch comment info..")
-            commentInfo = request.POST.get('comment')
-            commentAuthor = request.POST.get('author')
-            comment_GameId = foundGame
-
-            # create an object of the Comments model
-            newComment = Comments(gameId=comment_GameId,
-                                  author=commentAuthor,
-                                  comment=commentInfo)
-            newComment.save()
-            print("Saved new comment")
-
-    # query for all the player who played in the game
-    players = foundGame.players.all()
     allPlayerRecords = []
     for player in players:
         try:
@@ -152,44 +153,39 @@ def displayGameAndComment(request, id):
             newPlayerRecord.save()
             allPlayerRecords.append(newPlayerRecord)
 
-    print("All player records: ")
-    print(allPlayerRecords)
-
-    relatedComments = Comments.objects.filter(gameId=foundGame)
-
+    # use Django Fk set
+    relatedComments = foundGame.comments_set.all()
     info = {
         'game': foundGame,
-        'players': players,
         'player_records':allPlayerRecords,
         'comments': relatedComments,
     }
 
-    #print(info)
     return render(request, 'game/game_detail.html', info)
 
 
 
-# create view
-# class GameCreateView(LoginRequiredMixin, CreateView):
-#     model = Game
-#     form_class = CreateGameForm
-#     template_name = "game/game_form.html"
+def leaveComment(request, id):
+    if request.is_ajax and request.method == "POST":
+        gameId = Game.objects.get(id=id)
+        comment = request.POST.get('comment')
+        author = request.POST.get('author')
+        newComment = Comments(gameId = gameId,
+                              author = author,
+                              comment = comment)
+        newComment.save()
+        print("Saved new comment")
+        data = {
+            "date": newComment.date,
+            "author": author,
+            "comment": comment
+        }
 
-#     # form_valid foes the form saving
-#     # override the form_valid function
-#     def form_valid(self, form):
-#         # set the instance to current logged in user
-#         form.instance.creator = self.request.user
-#         return super().form_valid(form)
-    
-    # Constructs a dictionary with the parameters necessary to initialize the form
-    # specifies before initialization of form
-    # def get_form_kwargs(self):
-    #     data = super(GameCreateView, self).get_form_kwargs()
-    #     data.update(
-    #         players = Player.objects.get(belongsTo=self.request.user)
-    #     )
-    #     return data
+        return JsonResponse(data)
+
+
+
+
 
 @login_required
 def createGame(request):

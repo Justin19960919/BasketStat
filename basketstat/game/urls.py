@@ -17,6 +17,10 @@ urlpatterns = [
 	##### normal routes
 	path('list/', GameListView.as_view(), name = 'game-list'),
 	path('list/<int:id>',views.displayGameAndComment, name = 'game-detail'),
+
+	path('leaveComment/<int:id>', views.leaveComment, name="leave-comment"),
+
+
 	# path('record/<int:id>',views.recordGame, name = 'game-record'),
 	path('record/<int:id>',ProcessGameRecordView.as_view(), name = 'game-record'),
 	path('stats/<int:id>', StatView.as_view(), name="game-stat"),

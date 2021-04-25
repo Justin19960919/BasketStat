@@ -175,6 +175,7 @@ EMAIL_USE_TLS = True
 # load from private environment
 # EMAIL_HOST_USER = 'wadesuperstar@gmail.com'
 # EMAIL_HOST_PASSWORD = 'aafdadfasdadsfcasdfad'
+
 EMAIL_HOST_USER = os.getenv('EMAIL')
 EMAIL_HOST_PASSWORD = os.getenv('PWD')
 
