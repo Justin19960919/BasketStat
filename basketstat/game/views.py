@@ -170,6 +170,7 @@ def leaveComment(request, id):
         gameId = Game.objects.get(id=id)
         comment = request.POST.get('comment')
         author = request.POST.get('author')
+        
         newComment = Comments(gameId = gameId,
                               author = author,
                               comment = comment)
@@ -182,6 +183,15 @@ def leaveComment(request, id):
         }
 
         return JsonResponse(data)
+
+
+
+def deleteComment(request, comment_id):
+    comment = Comments.objects.get(id=comment_id)
+    cur_gameId = comment.gameId.id
+    comment.delete()
+    print("Deleted Comment!")
+    return HttpResponseRedirect(f'/game/list/{cur_gameId}')
 
 
 
@@ -256,14 +266,6 @@ class GameDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-
-@login_required
-def deleteComment(request, comment_id):
-    comment = Comments.objects.get(id=comment_id)
-    cur_gameId = comment.gameId.id
-    comment.delete()
-    print("Deleted Comment!")
-    return HttpResponseRedirect(f'/game/list/{cur_gameId}')
 
 
 

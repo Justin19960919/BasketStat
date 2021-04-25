@@ -141,70 +141,105 @@ a.post-title:hover {
 }
 
 
-/* --------- game comment --------- */
-.comment{
-  background: #ffffff;
-  padding: 15px 5px 15px 5px;
-  text-align:left;
-  width:90%;
-  margin:10px auto;
-  
-  border-radius: 10px;
-  border-style: double;
-  border-color: #A9A99E;
-}
-
-.comment a{
-  color:#353D45;
-}
-
-
-a.comment:hover {
-  color: #9AB4D5;
-}
-
-
-
-.comment h6{
-  font-weight: bold;
-  font-family: 'Train One', cursive;
-  font-size:20px;
-}
-
-
-
-
 /* --------- game detail---------*/
 
 .game-detail{
-  background: #ffffff;
-  width: 90%;
-  text-align:center;
-  margin:10px auto;
-}
-
-
-.game-quarter-score{
-  width:80%;
-  text-align:center;
-  margin: 20px auto 20px auto;
 
 }
+
+
+.game-quarter-score, .game-player-score{
+
+}
+
 
 .game-video{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
 }
 
 .game-info{
-  text-align:center;
-  margin:auto;
+
 
 }
 
+/* --------- leave comment pop up form --------- */
 
-/*score css*/
+#overlay{
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */    
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: rgb(0,0,0); /* Black fallback color */
+  background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */  
+  color: ivory;
+}
+
+
+
+#overlay .closebtn{
+  position: absolute;
+  top: 60px;
+  right: 45px;
+  font-size: 60px;
+}
+
+
+
+.overlay-form{
+  position: relative;
+  top: 10%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+
+/* --------- game comment --------- */
+.comment{
+  /*background-color: #FFFAFA ;*/
+  padding: 20px;
+  width: 90%;
+  margin: 5px auto;
+  border-style: groove;
+  border-width: 0.5px;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+}
+
+.comment a{
+  position: absolute;
+  right: 20px;
+}
+
+.fa-times{
+  color: black;
+}
+
+.fa-times:hover{
+  color:red;
+}
+
+.comment h6{
+  font-style: bold;
+  font-size: 25px;
+}
+
+.comment small{
+  text-decoration: underline;
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+
+
+
+/* --------- game score---------*/
+
 .card {
   /* Add shadows to create the "card" effect */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);

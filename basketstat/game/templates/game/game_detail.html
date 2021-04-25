@@ -1,202 +1,236 @@
 {% extends "home/base.html" %}
 {% load static %}
 {% block content %}
-
-
 <div class="container-fluid p-0 main-body">
-  <div class="row no-gutters">
-    <div class='col-lg-12'>
-		
-		<div class="game-detail">
-			<table class="table game-quarter-score">
-			  <thead>
-			    <tr>
-			      <th scope="col">Teams</th>
-			      <th scope="col">Q1</th>
-			      <th scope="col">Q2</th>
-			      <th scope="col">Q3</th>
-			      <th scope="col">Q4</th>
-			      <th scope="col">Total</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <th scope="row">HomeTeam</th>
-			      <td>{{game.quarter1_score}}</td>
-			      <td>{{game.quarter2_score}}</td>
-			      <td>{{game.quarter3_score}}</td>
-			      <td>{{game.quarter4_score}}</td>
-			      <td>{{game.total_score}}</td>
-			    </tr>
-
-			    <tr>
-			      <th scope="row">{{game.opponent}}</th>
-			      <td>{{game.other_quarter1_score}}</td>
-			      <td>{{game.other_quarter2_score}}</td>
-			      <td>{{game.other_quarter3_score}}</td>
-			      <td>{{game.other_quarter4_score}}</td>
-			      <td>{{game.other_total_score}}</td>
-	  		    </tr>
-			  </tbody>
-			</table>
-		    
-			<!-- render player records here -->
-			<table class="table table-sm table-light" style="margin-top: 40px; margin-bottom: 20px; border-collapse: collapse;">
-				<tr>
-					<th>Player Number</th>
-					<th>Player Name</th>
-					<th>Number of Minutes played</th>
-					<th>Two pointers</th>
-					<th>Two pointers Made</th>
-					<th>Three pointers</th>
-					<th>Three pointers Made</th>
-					<th>Free throws</th>
-					<th>Free throws Made</th>
-					<th>Offensive Rebound</th>
-					<th>Defensive Rebound</th>
-					<th>Blocks</th>
-					<th>Steals</th>
-					<th>Assists</th>
-					<th>Turnovers</th>
-					<th>Offensive Foul</th>
-					<th>Defensive Foul</th>
-				</tr>
-				{% for pr in player_records %}
-					<tr>
-						<td>{{pr.playerId.number}}</td>
-						<td>{{pr.playerId.name}}</td>
-						<td>{{pr.numberOfMinutesPlayer}}</td>
-						<td>{{pr.twoPointers}}</td>
-						<td>{{pr.twoPointersMade}}</td>
-						<td>{{pr.threePointers}}</td>
-						<td>{{pr.threePointersMade}}</td>
-						<td>{{pr.freethrows}}</td>
-						<td>{{pr.freethrowMade}}</td>
-						<td>{{pr.offensiveRebound}}</td>
-						<td>{{pr.defensiveRebound}}</td>
-						<td>{{pr.block}}</td>
-						<td>{{pr.steal}}</td>
-						<td>{{pr.assist}}</td>
-						<td>{{pr.turnover}}</td>
-						<td>{{pr.offensiveFoul}}</td>
-						<td>{{pr.defensiveFoul}}</td>
-					</tr>
-				{% endfor %}
-			</table>
-
-		    <div class="game-info">
-				<h5>Game infomation</h5>    
-				<p>Season: {{game.season}}</p>
-				<p>Date: {{game.dateOfGame}}</p>
-				<p>Area: {{game.area}}</p>
-			</div>
-
-			<p><a href="{{game.gameUrl}}">Game Link</a></p>
+	<div class="row no-gutters">
+		<div class='col-lg-8 col-sm-12 col-xs-12'>
 			
-
-
-
-		{% if game.creator == user %}
-			<div>
-				<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
-				<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
+			<div class="game-detail">
+				<!-- game quarter score -->
+				<table class="table game-quarter-score">
+					<thead>
+						<tr>
+							<th scope="col">Teams</th>
+							<th scope="col">Q1</th>
+							<th scope="col">Q2</th>
+							<th scope="col">Q3</th>
+							<th scope="col">Q4</th>
+							<th scope="col">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">HomeTeam</th>
+							<td>{{game.quarter1_score}}</td>
+							<td>{{game.quarter2_score}}</td>
+							<td>{{game.quarter3_score}}</td>
+							<td>{{game.quarter4_score}}</td>
+							<td>{{game.total_score}}</td>
+						</tr>
+						<tr>
+							<th scope="row">{{game.opponent}}</th>
+							<td>{{game.other_quarter1_score}}</td>
+							<td>{{game.other_quarter2_score}}</td>
+							<td>{{game.other_quarter3_score}}</td>
+							<td>{{game.other_quarter4_score}}</td>
+							<td>{{game.other_total_score}}</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- render game player records here -->
+				<table class="game-player-score">
+					<tr>
+						<th>Player Number</th>
+						<th>Player Name</th>
+						<th>Number of Minutes played</th>
+						<th>Two pointers</th>
+						<th>Two pointers Made</th>
+						<th>Three pointers</th>
+						<th>Three pointers Made</th>
+						<th>Free throws</th>
+						<th>Free throws Made</th>
+						<th>Offensive Rebound</th>
+						<th>Defensive Rebound</th>
+						<th>Blocks</th>
+						<th>Steals</th>
+						<th>Assists</th>
+						<th>Turnovers</th>
+						<th>Offensive Foul</th>
+						<th>Defensive Foul</th>
+					</tr>
+					{% for pr in player_records %}
+						<tr>
+							<td>{{pr.playerId.number}}</td>
+							<td>{{pr.playerId.name}}</td>
+							<td>{{pr.numberOfMinutesPlayer}}</td>
+							<td>{{pr.twoPointers}}</td>
+							<td>{{pr.twoPointersMade}}</td>
+							<td>{{pr.threePointers}}</td>
+							<td>{{pr.threePointersMade}}</td>
+							<td>{{pr.freethrows}}</td>
+							<td>{{pr.freethrowMade}}</td>
+							<td>{{pr.offensiveRebound}}</td>
+							<td>{{pr.defensiveRebound}}</td>
+							<td>{{pr.block}}</td>
+							<td>{{pr.steal}}</td>
+							<td>{{pr.assist}}</td>
+							<td>{{pr.turnover}}</td>
+							<td>{{pr.offensiveFoul}}</td>
+							<td>{{pr.defensiveFoul}}</td>
+						</tr>
+					{% endfor %}
+				</table>
+				<!-- game info -->
+				<div class="game-info">
+					<h5>Game infomation</h5>
+					<p>Season: {{game.season}}</p>
+					<p>Date: {{game.dateOfGame}}</p>
+					<p>Area: {{game.area}}</p>
+				</div>
+				<!-- game link -->
+				<p><a href="{{game.gameUrl}}">Game Link</a></p>
+				
+				<!-- game update/delete -->
+				{% if game.creator == user %}
+					<div>
+						<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'game-update' game.id%}">Update</a>
+						<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'game-delete' game.id%}">Delete</a>
+					</div>
+				{% endif %}
+				<a class="btn btn-light btn-md mt-1 mb-1" href="{% url 'game-record' game.id%}">Start Recording</a>
+				
 			</div>
-		{% endif %}
-		<a class="btn btn-light btn-md mt-1 mb-1" href="{% url 'game-record' game.id%}">Start Recording</a>
-		
 		</div>
+		
+
+
+
+
+
 
 		<!-- comments -->
-		<div id="comment-list">	
-			{% for comment in comments %}	
-			  <div class="comment">
-		    	<!-- delete comment -->
-		    	<form method='POST' id="delete-comment" action="/game/deleteComment/{{comment.id}}/">
-		    		{% csrf_token %}
-		    		<button type="submit">X</button>
-		    	</form>
+		<div class="col-lg-4 col-sm-12 col-xs-12">
+			<!-- comment list -->
+			<div id="comment-list">
+				{% for comment in comments %}
+					<div class="comment">
+						<a href="{% url 'delete-comment' comment.id %}">
+							<i class="fas fa-times fa-lg"></i>
+						</a>
+						<h6>
+							{{comment.author}}
+							<span><small>{{comment.date}}</small></span>
+						</h6>
+						<p>{{comment.comment}}</p>
+					</div>
+				{% endfor %}
+			</div>
 
-			    <h6>{{comment.author}} | {{comment.date}} </h6>  
-			    <p>{{comment.comment}}</p>
-			  </div>
-			{% endfor %}
+			<!-- leave comment button -->
+			
+			<button style="margin: 10px auto 10px 25px;" class="btn btn-md btn-dark" id="comment-popup"  onclick="openLeaveComment()"> Leave Comment</button>
+			
+			<!-- pop up form -->
+			<div id="overlay">
+
+				<a class="closebtn" onclick="closeLeaveComment()">X</a>
+
+				<form class="form overlay-form" autocomplete="off" id="leave-comment" method="POST">
+					{% csrf_token %}
+					<!-- author -->
+					<label>Author: </label>
+					<br>
+					<input type="text" name="author" id="author" placeholder="XXX">
+					<br>
+					<!-- comment -->
+					<label style="margin-top: 10px">Comment: </label>
+					<br>
+					
+					<textarea rows="15" cols="100" name="comment" id="comment" placeholder="Have a good day!"></textarea>
+					<br>
+
+					<button type="submit" class="btn">Comment</button>
+
+				</form>
+			</div>
+			<!--  -->
 		</div>
-
-
-    </div>
-    <!-- col lg 12 end -->
-
-
-
-  </div>
-  <!-- row end -->
-
-
-  <div class="row no gutters" style="margin-left: 60px;">
-	{% if game.creator == user %}
-	    <div>
-	    	<!-- leave comment -->
-		    <form autocomplete="off" id="leave-comment" method="POST">
-		    	{% csrf_token %}
-				<!-- author -->
-		    	<input type="text" name="author" id="author" placeholder="Put Author here">
-		    	<br>
-		    	<!-- comment -->
-		    	<textarea name="comment" id="comment" rows="10" cols="70" placeholder="Put Comment Here"></textarea>
-		    	<br>
-				<button type="submit" name="addComment" class="btn btn-outline-dark">Save</button>
-		    </form>
-		</div>
-	{% endif %}
-  </div>
-
+	</div>
 </div>
-
-
-
 
 {% endblock content %}
 
 
 
+
 {% block javascript %}
 <script type="text/javascript">
+
+function openLeaveComment(){
+	console.log("Open Comment popup");
+	document.getElementById("overlay").style.width = "100%";
+}
+
+
+function closeLeaveComment(){
+	console.log("Close comment popup");
+	document.getElementById("overlay").style.width = "0%";
+}
+
+
 $(function(){
 	// ajax
 	$("#leave-comment").submit(function(e){
+		
+		closeLeaveComment();
+		var submit_comment = $("#comment").val();
+		var submit_author = $("#author").val();
 
-		e.preventDefault();
-		var serializedData = $(this).serialize();
-		$.ajax({
-			// pass
-			type: 'POST',
-			url: "{% url 'leave-comment' game.id %}",
-			data: serializedData,
-			success: function(response){
-				// reset form
-				$("#leave-comment").trigger('reset');
-				
-				let author = response.author;
-				let comment = response.comment;
-				let date = response.date;
-				console.log(author, comment, date);
-				// prepend
-				$("#comment-list").append(
-					`
-					<div class="comment">
-						<h6>${author} | ${date}</h6>  
-						<p>${comment}</p>
-					<div/>
-					 `
-				);
-			},
-			// ajax error
-			error: function(response){
-				alert("Something happened.. we are sorry!");
-			}
-		})
+		if(submit_comment == "" || submit_author == ""){
+			alert("Please fill in all fields");
+		}else{
+			e.preventDefault();
+			var serializedData = $(this).serialize();
+			$.ajax({
+				// pass
+				type: 'POST',
+				url: "{% url 'leave-comment' game.id %}",
+				data: serializedData,
+				success: function(response){
+					// reset form
+					$("#leave-comment").trigger('reset');
+					
+					let author = response.author;
+					let comment = response.comment;
+					let date = response.date;
+
+					// prepend
+					$("#comment-list").append(
+						`
+						<div class="comment">	
+							<h6>
+								${author}
+								<span><small>${date}</small></span>
+							</h6>
+							<p>${comment}</p>
+						<div/>
+						`
+							);
+						},
+						// ajax error
+						error: function(response){
+							alert("Something happened.. we are sorry!");
+					}
+			})
+		}
 	})
-})	
+
+
+// document get ready function
+})
+
+
 
 
 
@@ -204,14 +238,3 @@ $(function(){
 
 </script>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
