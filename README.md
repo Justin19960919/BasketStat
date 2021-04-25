@@ -35,30 +35,59 @@ Other dependencies include:
 - PILLOW
 
 
-### Installation
+### How to run the app
 
 1. Clone the repo
    ```
-   git clone XXX
+   git clone https://github.com/Justin19960919/BasketStat.git
    ```
-2. Run the server
+2. Activate virtual environment
+   ```
+   source env/bin/activate
+   ```
+   
+3. Make migrations to populate db
    ```python
    python manage.py makemigrations
    python manage.py migrate
+   ```
+
+4. Run server
+   ```
    python manage.py runserver
    ```
 
+5. Visit local host
+   Go to http://localhost:8000/
 
 
-## Usage
-<!-- Put some photos here -->
+## Features
+
+- Login / Logout
+   - adf
+
+- Profile
 
 
+- Posts
 
 
+- Games
 
 
-## Contact
-[Chieh Lin Lee](chiehlinleee@gmail.com)
+- Game Details
+
+
+- Record in game
+
+
+- Comments
+
+
+- Statistics
+
+
+- Players
+
 
 
