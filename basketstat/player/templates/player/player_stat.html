@@ -1,0 +1,80 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid main-body">
+  
+  <div class="container player-profile">
+    <h2>#{{profile.number}} | {{profile.name}}</h2>
+   
+    <div class="player-profile-info">
+      <div class="player-profile-stats">
+        <!-- points per game -->
+        <h5>Points Per Game</h5>
+        <h6>{{profile.stat.PPG}}</h6>
+      </div>
+     
+      <div class="player-profile-stats">
+        <!-- offensive rebounds -->
+        <h5>Offensive Rebounds Per Game</h5>
+        <h6>{{profile.stat.AvgOr}}</h6>
+      </div>
+     
+      <div class="player-profile-stats">
+        <!-- defensive rebounds -->
+        <h5>Defensive Rebounds Per Game</h5>
+        <h6>{{profile.stat.AvgDr}}</h6>
+      </div>
+      
+      <div class="player-profile-stats">
+        <!-- assists -->
+        <h5>Assists Per Game</h5>
+        <h6>{{profile.stat.AvgAst}}</h6>
+      </div>
+  
+    </div>
+
+  </div>
+
+
+  <table class="container player-table" style="width: 75%;">
+      <tr>
+          <th>Two pointers per game</th>
+          <th>Three pointers per game</th>
+          <th>Free throws per game</th>
+          <th>Two pointer Percentage</th>
+          <th>Three pointer Percentage</th>
+          <th>Free throw Percentage</th>
+          <th>Block</th>
+          <th>Steal</th>
+          <th>Turnover</th>
+          <th>Defensive Foul</th>
+          <th>Offensive Foul</th>
+          <th>Minutes</th>
+      </tr>
+
+      <tr>
+          <td>{{profile.stat.Avg2P}}</td>
+          <td>{{profile.stat.Avg3P}}</td>
+          <td>{{profile.stat.AvgFT}}</td>
+          <td>{{profile.stat.Avg2PP}}</td>
+          <td>{{profile.stat.Avg3PP}}</td>
+          <td>{{profile.stat.AvgFTP}}</td>
+          <td>{{profile.stat.AvgBlk}}</td>
+          <td>{{profile.stat.AvgStl}}</td>
+          <td>{{profile.stat.AvgTo}}</td>
+          <td>{{profile.stat.AvgDf}}</td>
+          <td>{{profile.stat.AvgOf}}</td>
+          <td>{{profile.stat.AvgMins}}</td>
+      </tr>
+  </table>
+
+
+
+
+</div>
+
+{% endblock content %}
+
+  

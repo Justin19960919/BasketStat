@@ -104,9 +104,6 @@ $(function(){
           backgroundColor: "#71d1bd",
           fill: false,
         },
-
-
-
         ]
       },
 
@@ -114,34 +111,16 @@ $(function(){
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: 'World population per region (in millions)'
-        },
         scales: {
-          x: [{
+          x: {
             display: true,
-          }],
-          y: [{
+          },
+          y: {
             display: true,
-            ticks: {
-              min: 0,
-              max: 100,
-              beginAtZero: true
+            beginAtZero: true,
             }
-          }]
-        },
-
-      // ------- layout option -------
-      
-      // layout:{
-      //  padding:{
-      //    left:0,
-      //    right:0,
-      //    top:0,
-      //    bottom:0
-      //  }
-      // }
+        }
+        
       }
 
 

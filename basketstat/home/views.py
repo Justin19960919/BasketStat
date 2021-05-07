@@ -18,3 +18,9 @@ def test(request):
 		'c': 3
 	}
 	return render(request, 'home/test.html', context)
+
+
+
+
+
+

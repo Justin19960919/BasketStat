@@ -30,13 +30,13 @@
                 <tr>
                     <th></th>
                     <th>Number</th>
-                    <th>Name</th>
+                    <th>Name</th>                    
                 </tr>
                 {% for player in players %}
                   <tr>
                       <td><a href="{%url 'player-delete' player.id%}"><i class="fas fa-trash"></i></a></td>
                       <td>{{player.number}}</td>
-                      <td>{{player.name}}</td>
+                      <td><a class="player-name" href="{% url 'player-stats' player.id%}">{{player.name}}</a></td>
                   </tr>
                 {% endfor %}
             </table>

@@ -354,7 +354,7 @@ a.post-title:hover {
   padding:5px;
 }
 
-/*delete players*/
+
 .fa-trash{
   color:#202020;
 }
@@ -362,6 +362,44 @@ a.post-title:hover {
 .fa-trash:hover{
   color:red;
 }
+
+
+.player-name{
+  color: black;
+}
+
+
+.player-name:hover{
+  color: #00BFFF;
+}
+
+
+/*player profile*/
+.player-profile{
+  margin-top: 100px;
+}
+
+.player-profile-info{
+  margin: 20px auto;
+  display:flex; 
+  flex-direction: row;
+  flex-flow: column-wrap;
+  align-items:center;
+  text-align: center;
+  justify-content: space-around;
+}
+
+
+.player-profile-stats{
+  background-color: #B0E0E6;
+  padding: 10px;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+}
+
+
+
 
 
 /*record css*/
@@ -450,5 +488,16 @@ a.post-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+
+
+/* game stat */
+
+
+
+
+
+
+
 
 

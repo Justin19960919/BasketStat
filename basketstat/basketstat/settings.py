@@ -28,7 +28,7 @@ SECRET_KEY = '=$qf@waq$fbr6k5q&5j$@a3j64@ai#tx-&6g+nd0)!*(8a7d5='
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # '4f98a9d50ed6.ngrok.io', # for ngrok connections
+
 ]
 
 
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -170,22 +170,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-# configure to dotenv later
-# load from private environment
-# EMAIL_HOST_USER = 'wadesuperstar@gmail.com'
-# EMAIL_HOST_PASSWORD = 'aafdadfasdadsfcasdfad'
-
 EMAIL_HOST_USER = os.getenv('EMAIL')
 EMAIL_HOST_PASSWORD = os.getenv('PWD')
 
+## AWS kEYS
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
-
-
-
-
-
-
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 

@@ -15,16 +15,17 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'      # USERNAME Profile
 
     # This save() method already exists, we are overwriting it to resize the image
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # open the image instance
-        img = Image.open(self.image.path)
-        # If img is bigger than 300 * 300
-        if img.height > 300 or img.width > 300:
-            # resize
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.path) # save it back
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     # open the image instance
+    #     img = Image.open(self.image.path)
+    #     # If img is bigger than 300 * 300
+    #     if img.height > 300 or img.width > 300:
+    #         # resize
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path) # save it back
+
 
 # after this migrates, it will create a dir called profile_pics, with the same level
 # as the root dir, to change the location, specify the MEDIA ROOT in settings.py in 

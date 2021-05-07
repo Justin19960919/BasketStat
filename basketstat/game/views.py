@@ -42,6 +42,7 @@ City.objects.values('country__name') \
 '''
 
 
+
 ######################################################################
 # CBV tutorial
 # https://simpleisbetterthancomplex.com/series/2017/10/09/a-complete-beginners-guide-to-django-part-6.html
@@ -625,7 +626,6 @@ def linechart(request, id):
 
 
 def getTeamStats(request, id):
-    # game id is dummy, testing for now
     tgr = TeamGameRecord()
     game = Game.objects.get(id=id)
     player_records = PlayerRecord.objects.filter(gameId=game)
@@ -649,7 +649,7 @@ def getTeamStats(request, id):
 # https://www.ordinarycoders.com/blog/article/11-chart-js-examples
 
 # 2
-# load charts to the same page, nice code
+# load charts to the same page
 # https://testdriven.io/blog/django-charts/
 
 # def charts(request):
