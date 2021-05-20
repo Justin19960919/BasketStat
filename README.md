@@ -1,5 +1,5 @@
-# BasketStat
-*[Website](https://basketball-stat.herokuapp.com)*
+# [BasketStat](https://basketball-stat.herokuapp.com)
+
 
 <img src="photos/landing_page.png" alt="Landing page 1"/>
 <img src="photos/landing_page2.png" alt="Landing page 2"/>
