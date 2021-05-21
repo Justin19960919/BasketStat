@@ -3,6 +3,7 @@
 
 <img src="photos/landing_page.png" alt="Landing page 1"/>
 <img src="photos/landing_page2.png" alt="Landing page 2"/>
+
 ## About The Project
 This project was built with the intention of creating a webapp that serves the purpose of recording basketball scores, which include
 player scores, and team scores on the court, while also providing a real-time analysis and calculation of team/ player statistics to help 
