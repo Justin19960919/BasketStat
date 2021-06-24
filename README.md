@@ -14,7 +14,7 @@ and player / team performancesm, leading to non data driven adjustments. This we
 score-tracking, and analysis all in one place.
 
 ***
-To access the web appm please use the test user:
+To access the web app please use the test user:
 
 Account: TestUser1
 
